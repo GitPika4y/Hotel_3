@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="Hotel_3.WPF.Views.Modal.AddUpdateCategoryModal"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Hotel_3.WPF.Views.Modal"
+             xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d">
+    
+    <StackPanel Margin="20">
+        <TextBlock Text="{Binding Title}" 
+                   HorizontalAlignment="Center"
+                   FontSize="20"/>
+        
+        <TextBox Text="{Binding CategoryName}"
+                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                 md:HintAssist.Hint="Название категории"
+                 Margin="0 10"
+                 FontSize="16"
+            />
+        
+        <Button
+            Content="{Binding ButtonText}"
+            Command="{x:Static md:DialogHost.CloseDialogCommand}"
+            CommandParameter="{Binding CategoryName}"
+            />
+        
+        <Button
+            Content="Назад"
+            Command="{x:Static md:DialogHost.CloseDialogCommand}"
+            CommandParameter="{x:Null}"
+            Margin="0 10"
+            Style="{StaticResource MaterialDesignFlatSecondaryButton}"
+            />
+    </StackPanel>
+</UserControl>
