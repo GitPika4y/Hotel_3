@@ -1,0 +1,70 @@
+﻿<UserControl x:Class="Hotel_3.WPF.Views.Modal.AddUpdateRoomModal"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes">
+    
+    <StackPanel Margin="15">
+        <TextBlock Text="Добавить комнату"
+                   HorizontalAlignment="Center"
+                   FontSize="24"
+                   Margin="0 15"/>
+        
+        <md:NumericUpDown
+            Style="{StaticResource MaterialDesignOutlinedNumericUpDown}"
+            md:HintAssist.Hint="Этаж"
+            Minimum="1"
+            ValueStep="1"
+            Value="{Binding SelectedFloor}"
+            Margin="0 15"/>
+        
+        <md:NumericUpDown
+            Style="{StaticResource MaterialDesignOutlinedNumericUpDown}"
+            md:HintAssist.Hint="Номер"
+            Minimum="101"
+            ValueStep="1"
+            Value="{Binding SelectedNumber}"
+            Margin="0 15"/>
+        
+        
+        <ComboBox ItemsSource="{Binding Categories}"
+                  Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                  md:HintAssist.Hint="Категория"
+                  FontSize="20"
+                  SelectedItem="{Binding SelectedCategory}"
+                  Margin="0 15">
+            
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        
+        <ComboBox ItemsSource="{Binding Statuses}"
+                  Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                  md:HintAssist.Hint="Статус"
+                  FontSize="20"
+                  SelectedItem="{Binding SelectedStatus}"
+                  Margin="0 15">
+            
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        
+        <Button Content="Сохранить"
+                Margin="0 15"
+                Command="{Binding SaveCommand}"
+                CommandParameter="{Binding CreateRoomDto}"
+            />
+        
+        <Button
+            Content="Назад"
+            Style="{StaticResource MaterialDesignFlatSecondaryButton}"
+            Margin="0 15"
+            Command="{x:Static md:DialogHost.CloseDialogCommand}"
+            />
+    </StackPanel>
+</UserControl>

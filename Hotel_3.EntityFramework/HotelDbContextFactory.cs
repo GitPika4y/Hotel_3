@@ -16,8 +16,7 @@ internal class HotelDbContextFactory : IDesignTimeDbContextFactory<HotelDbContex
 		}
 			
 		var options = new DbContextOptionsBuilder<HotelDbContext>();
-		options.UseSqlServer(connectionString)
-			.UseLazyLoadingProxies();
+		options.UseSqlServer(connectionString);
 
 		return new HotelDbContext(options.Options);
 	}

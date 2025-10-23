@@ -11,11 +11,11 @@ public class CategoryUseCase(ICategoryService service) : ICategoryUseCase
         try
         {
             var newEntity = await service.AddAsync(entity);
-            return Resource<RoomCategory>.Success(newEntity);
+            return Resource<RoomCategory?>.Success(newEntity);
         }
         catch (Exception e)
         {
-            return Resource<RoomCategory>.Fail(e.Message);
+            return Resource<RoomCategory?>.Fail(e.Message);
         }
     }
 
@@ -30,11 +30,11 @@ public class CategoryUseCase(ICategoryService service) : ICategoryUseCase
         try
         {
             var updatedEntity = await service.UpdateAsync(entity);
-            return Resource<RoomCategory>.Success(updatedEntity);
+            return Resource<RoomCategory?>.Success(updatedEntity);
         }
         catch (Exception e)
         {
-            return Resource<RoomCategory>.Fail(e.Message);
+            return Resource<RoomCategory?>.Fail(e.Message);
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
+using Hotel_3.Domain.DTOs;
+using Hotel_3.Domain.Mappers;
 using Hotel_3.Domain.Models;
 using Hotel_3.Domain.Services.Category;
 using Hotel_3.WPF.Commands;
@@ -14,7 +16,7 @@ public class CategoryViewModel : ViewModelBase
 {
     private readonly ICategoryUseCase _useCase;
     
-    private ObservableCollection<RoomCategory> _categories;
+    private ObservableCollection<RoomCategory> _categories = [];
     public ObservableCollection<RoomCategory> Categories
     {
         get => _categories;
@@ -22,7 +24,6 @@ public class CategoryViewModel : ViewModelBase
     }
 
     public RoomCategory? SelectedItem { get; set; } = null;
-    public string ErrorMessage { get; private set; }
     
     public ICommand AddCategoryCommand { get; }
     public ICommand UpdateCategoryCommand { get; }
@@ -30,10 +31,9 @@ public class CategoryViewModel : ViewModelBase
     public CategoryViewModel(INavigator navigator, ICategoryUseCase useCase) : base(navigator)
     {
         _useCase = useCase;
-        Categories = [];
         AddCategoryCommand = new AsyncRelayCommand(AddCategory, () => true);
         UpdateCategoryCommand = new AsyncRelayCommand(UpdateCategory, () => SelectedItem != null);
-        _ = LoadCategories();
+        _ = LoadCategoriesAsync();
     }
 
     private async Task UpdateCategory()
@@ -41,7 +41,11 @@ public class CategoryViewModel : ViewModelBase
         var item = SelectedItem;
         if (item == null) return;
         
-        var result = await DialogHost.Show(new AddUpdateCategoryModal("Обновить категорию", "Изменить", item.Name));
+        var result = await DialogHost.Show(new AddUpdateCategoryStatusModal(
+            "Обновить категорию",
+            "Изменить",
+            "Название категории",
+            item.Name));
         var updatedCategoryName = result?.ToString();
         if (updatedCategoryName != null)
         {
@@ -53,13 +57,13 @@ public class CategoryViewModel : ViewModelBase
             
             var resource = await _useCase.UpdateAsync(updatedItem);
             if (resource is { IsSuccess: false, Message: not null })
-                ErrorMessage = resource.Message;
+                await DialogHost.Show(new MessageModal(resource.Message, "Ок"));
             else
-                await LoadCategories();
+                await LoadCategoriesAsync();
         }
     }
 
-    private async Task LoadCategories()
+    private async Task LoadCategoriesAsync()
     {
         var result = await _useCase.GetAllAsync();
         if (result is { IsSuccess: true, Data: not null })
@@ -74,7 +78,10 @@ public class CategoryViewModel : ViewModelBase
 
     private async Task AddCategory()
     {
-        var result = await DialogHost.Show(new AddUpdateCategoryModal("Добавить категорию", "Сохранить"));
+        var result = await DialogHost.Show(new AddUpdateCategoryStatusModal(
+            "Добавить категорию",
+            "Сохранить",
+            "Название категории"));
         var categoryName = result?.ToString();
         if (categoryName != null)
         {
@@ -84,10 +91,10 @@ public class CategoryViewModel : ViewModelBase
             };
             
             var resource = await _useCase.AddAsync(newCategory);
-            if (resource is { IsSuccess: true, Message: not null })
-                ErrorMessage = resource.Message;
+            if (resource is { IsSuccess: false, Message: not null })
+                await DialogHost.Show(new MessageModal(resource.Message, "Ок"));
             else
-                await LoadCategories();
+                await LoadCategoriesAsync();
         }
 
     }

@@ -8,4 +8,5 @@ public class MainViewModel(INavigator navigator, IServiceProvider serviceProvide
 {
     public RoomsViewModel RoomsViewModel { get; } = serviceProvider.GetRequiredService<RoomsViewModel>();
     public CategoryViewModel CategoryViewModel { get; } = serviceProvider.GetRequiredService<CategoryViewModel>();
+    public StatusViewModel StatusViewModel { get; } = serviceProvider.GetRequiredService<StatusViewModel>();
 }

@@ -9,15 +9,25 @@
              d:DesignHeight="300" d:DesignWidth="500"
              Loaded="RoomsView_OnLoaded">
     
-    <StackPanel>
-        <StackPanel Orientation="Horizontal">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <StackPanel Grid.Row="0"  
+            Orientation="Horizontal">
             <TextBlock Text="Комнаты"
                        Margin="15"
                        Style="{StaticResource MaterialDesignHeadlineSmallTextBlock}"/>
-            <Button Content="Добавить"/><!-- TODO Command -->
+            <Button Content="Добавить"
+                    Command="{Binding AddRoomCommand}"/>
         </StackPanel>
-        <DataGrid ItemsSource="{Binding Rooms}"
+        
+        <DataGrid Grid.Row="1"
+                  ItemsSource="{Binding Rooms}"
                   Height="Auto"
-                  Style="{StaticResource MaterialDesignDataGrid}"/>
-    </StackPanel>
+                  Style="{StaticResource MaterialDesignDataGrid}"
+                  IsReadOnly="True"/>
+    </Grid>
 </UserControl>

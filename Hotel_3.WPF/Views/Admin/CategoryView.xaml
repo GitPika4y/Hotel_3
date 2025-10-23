@@ -26,8 +26,6 @@
                     Background="#FEB308"
                     BorderBrush="#FEB308"
                     Margin = "15 0"/>
-            <TextBlock Text="{Binding ErrorMessage}"
-                       Foreground="DarkRed"/>
         </StackPanel>
         
         

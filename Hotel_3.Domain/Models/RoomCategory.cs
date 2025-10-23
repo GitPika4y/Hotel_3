@@ -1,7 +1,6 @@
-﻿namespace Hotel_3.Domain.Models
+﻿namespace Hotel_3.Domain.Models;
+
+public class RoomCategory : EntityObject
 {
-	public class RoomCategory : EntityObject
-	{
-		public string Name { get; set; } = null!;
-	}
+	public string Name { get; set; } = null!;
 }

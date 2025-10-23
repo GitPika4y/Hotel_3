@@ -16,14 +16,17 @@
                 
                 <ResourceDictionary>
                     
+                    <!-- Auth -->
                     <DataTemplate DataType="{x:Type vm:AuthViewModel}">
                         <views:AuthView/>
                     </DataTemplate>
                     
+                    <!-- Main -->
                     <DataTemplate DataType="{x:Type vm:MainViewModel}">
                         <views:MainView/>
                     </DataTemplate>
                     
+                    <!-- Admin -->
                     <DataTemplate DataType="{x:Type vmAdmin:RoomsViewModel}">
                         <viewsAdmin:RoomsView/>
                     </DataTemplate>
@@ -32,10 +35,9 @@
                         <viewsAdmin:CategoryView/>
                     </DataTemplate>
                     
-                    
-                    <!-- <DataTemplate DataType="{x:Type vmAdmin:}"> -->
-                    <!--  TODO Status    -->
-                    <!-- </DataTemplate> -->
+                    <DataTemplate DataType="{x:Type vmAdmin:StatusViewModel}">
+                        <viewsAdmin:StatusView/>
+                    </DataTemplate>
                     
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>

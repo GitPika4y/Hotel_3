@@ -4,6 +4,7 @@ using Hotel_3.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,13 +12,18 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hotel_3.EntityFramework.Migrations
 {
     [DbContext(typeof(HotelDbContext))]
-    partial class HotelDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251023145932_alter_room_navigation_properties")]
+    partial class alter_room_navigation_properties
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "9.0.9")
+                .HasAnnotation("Proxies:ChangeTracking", false)
+                .HasAnnotation("Proxies:CheckEquality", false)
+                .HasAnnotation("Proxies:LazyLoading", true)
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -93,23 +99,23 @@ namespace Hotel_3.EntityFramework.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Floor")
                         .HasColumnType("int");
 
                     b.Property<int>("Number")
                         .HasColumnType("int");
 
-                    b.Property<int>("RoomCategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RoomStatusId")
+                    b.Property<int>("StatusId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoomCategoryId");
+                    b.HasIndex("CategoryId");
 
-                    b.HasIndex("RoomStatusId");
+                    b.HasIndex("StatusId");
 
                     b.ToTable("Rooms");
                 });
@@ -195,21 +201,21 @@ namespace Hotel_3.EntityFramework.Migrations
 
             modelBuilder.Entity("Hotel_3.Domain.Models.Room", b =>
                 {
-                    b.HasOne("Hotel_3.Domain.Models.RoomCategory", "RoomCategory")
+                    b.HasOne("Hotel_3.Domain.Models.RoomCategory", "Category")
                         .WithMany()
-                        .HasForeignKey("RoomCategoryId")
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Hotel_3.Domain.Models.RoomStatus", "RoomStatus")
+                    b.HasOne("Hotel_3.Domain.Models.RoomStatus", "Status")
                         .WithMany()
-                        .HasForeignKey("RoomStatusId")
+                        .HasForeignKey("StatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("RoomCategory");
+                    b.Navigation("Category");
 
-                    b.Navigation("RoomStatus");
+                    b.Navigation("Status");
                 });
 
             modelBuilder.Entity("Hotel_3.Domain.Models.User", b =>
