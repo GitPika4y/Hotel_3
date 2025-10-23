@@ -21,13 +21,20 @@
                        Margin="15"
                        Style="{StaticResource MaterialDesignHeadlineSmallTextBlock}"/>
             <Button Content="Добавить"
-                    Command="{Binding AddRoomCommand}"/>
+                    Command="{Binding AddRoomCommand}"
+                    Margin="15 0"/>
+            <Button Content="Обновить"
+                    Command="{Binding UpdateRoomCommand}"
+                    Background="#FEB308"
+                    BorderBrush="#FEB308"
+                    Margin="15 0"/>
         </StackPanel>
         
         <DataGrid Grid.Row="1"
                   ItemsSource="{Binding Rooms}"
                   Height="Auto"
                   Style="{StaticResource MaterialDesignDataGrid}"
-                  IsReadOnly="True"/>
+                  IsReadOnly="True"
+                  SelectedItem="{Binding SelectedItem}"/>
     </Grid>
 </UserControl>

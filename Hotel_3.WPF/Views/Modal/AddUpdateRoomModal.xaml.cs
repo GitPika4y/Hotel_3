@@ -22,6 +22,8 @@ public partial class AddUpdateRoomModal : UserControl, INotifyPropertyChanged
     private int _selectedNumber;
     private int _selectedFloor;
 
+    private int _id;
+
     public int SelectedFloor
     {
         get => _selectedFloor;
@@ -65,25 +67,38 @@ public partial class AddUpdateRoomModal : UserControl, INotifyPropertyChanged
     
     public ICommand SaveCommand { get; }
 
-    public AddUpdateRoomModal(IServiceProvider serviceProvider)
+    public AddUpdateRoomModal(IServiceProvider serviceProvider, RoomDto? roomDto = null)
     {
         InitializeComponent();
         DataContext = this;
         SaveCommand = new RelayCommand(_ => Save());
-        _ = InitializeComboBoxItemsSource(serviceProvider);
+        _ = InitializeAsync(serviceProvider, roomDto);
     }
 
-    private void Save()
+    private async Task InitializeAsync(IServiceProvider serviceProvider, RoomDto? roomDto)
     {
-        var roomDto = new  RoomDto
+         await InitializeComboBoxItemsSource(serviceProvider);
+         await AssignProperties(roomDto);
+    }
+
+    private async Task AssignProperties(RoomDto? roomDto)
+    {
+        if (roomDto is null)
         {
-            CategoryId = SelectedCategory.Id,
-            StatusId = SelectedStatus.Id,
-            Floor = SelectedFloor,
-            Number = SelectedNumber,
-        };
-        
-        DialogHost.CloseDialogCommand.Execute(roomDto, null);
+            _id = 0;
+            SelectedCategory = Categories.First();
+            SelectedStatus = Statuses.First();
+            SelectedFloor = 1;
+            SelectedNumber = 101;
+        }
+        else
+        {
+            _id = roomDto.Id;
+            SelectedFloor = roomDto.Floor;
+            SelectedNumber = roomDto.Number;
+            SelectedCategory = Categories.First(c => c.Id == roomDto.CategoryId);
+            SelectedStatus = Statuses.First(s => s.Id == roomDto.StatusId);
+        }
     }
 
     private async Task InitializeComboBoxItemsSource(IServiceProvider serviceProvider)
@@ -102,12 +117,23 @@ public partial class AddUpdateRoomModal : UserControl, INotifyPropertyChanged
 
         foreach (var status in statuses)
             Statuses.Add(status);
-
-        SelectedCategory = Categories.First();
-        SelectedStatus = Statuses.First();
     }
 
-    
+    private void Save()
+    {
+        var roomDto = new  RoomDto
+        {
+            Id = _id,
+            CategoryId = SelectedCategory.Id,
+            StatusId = SelectedStatus.Id,
+            Floor = SelectedFloor,
+            Number = SelectedNumber,
+        };
+        
+        DialogHost.CloseDialogCommand.Execute(roomDto, null);
+    }
+
+
     public event PropertyChangedEventHandler? PropertyChanged;
 
     protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)

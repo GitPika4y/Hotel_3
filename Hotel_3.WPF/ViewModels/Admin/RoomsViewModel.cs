@@ -26,12 +26,14 @@ public class RoomsViewModel : ViewModelBase
     
     public RoomDto? SelectedItem { get; set; }
     public ICommand AddRoomCommand { get; } 
+    public ICommand UpdateRoomCommand { get; }
 
     public RoomsViewModel(INavigator navigator, IRoomUseCase useCase, IServiceProvider serviceProvider) : base(navigator)
     {
         _useCase = useCase;
         _serviceProvider = serviceProvider;
         AddRoomCommand = new AsyncRelayCommand(AddRoomAsync, () => true);
+        UpdateRoomCommand = new AsyncRelayCommand(UpdateRoomAsync, () => SelectedItem != null);
         _ = InitializeAsync();
     }
     
@@ -60,6 +62,22 @@ public class RoomsViewModel : ViewModelBase
         if (result is RoomDto room)
         {
             var resource = await _useCase.AddRoomAsync(room.ToNewModel());
+            if (resource is { IsSuccess: false, Message: not null, Exception: not null })
+                await DialogHost.Show(new MessageModal($"{resource.Message}\n{resource.GetExceptionDetails()}", "Ок"));
+            else
+                await LoadRooms();
+        }
+    }
+
+    private async Task UpdateRoomAsync()
+    {
+        var item = SelectedItem;
+        if (item == null) return;
+        
+        var result = await DialogHost.Show(new AddUpdateRoomModal(_serviceProvider, item));
+        if (result is RoomDto room)
+        {
+            var resource = await _useCase.UpdateRoomAsync(room.ToExistModel());
             if (resource is { IsSuccess: false, Message: not null, Exception: not null })
                 await DialogHost.Show(new MessageModal($"{resource.Message}\n{resource.GetExceptionDetails()}", "Ок"));
             else
