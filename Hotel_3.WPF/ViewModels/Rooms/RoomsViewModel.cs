@@ -1,16 +1,14 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
-using Azure.Core;
 using Hotel_3.Domain.DTOs;
 using Hotel_3.Domain.Mappers;
-using Hotel_3.Domain.Models;
 using Hotel_3.WPF.Commands;
 using Hotel_3.WPF.Navigation;
 using Hotel_3.WPF.UseCases.Main.Room;
 using Hotel_3.WPF.Views.Modal;
 using MaterialDesignThemes.Wpf;
 
-namespace Hotel_3.WPF.ViewModels.Admin;
+namespace Hotel_3.WPF.ViewModels.Rooms;
 
 public class RoomsViewModel : ViewModelBase
 {
@@ -34,7 +32,6 @@ public class RoomsViewModel : ViewModelBase
         _serviceProvider = serviceProvider;
         AddRoomCommand = new AsyncRelayCommand(AddRoomAsync, () => true);
         UpdateRoomCommand = new AsyncRelayCommand(UpdateRoomAsync, () => SelectedItem != null);
-        _ = InitializeAsync();
     }
     
 

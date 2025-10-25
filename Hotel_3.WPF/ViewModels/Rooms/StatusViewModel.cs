@@ -1,14 +1,13 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Hotel_3.Domain.Models;
-using Hotel_3.Domain.Services;
 using Hotel_3.WPF.Commands;
 using Hotel_3.WPF.Navigation;
 using Hotel_3.WPF.UseCases.Main.Status;
 using Hotel_3.WPF.Views.Modal;
 using MaterialDesignThemes.Wpf;
 
-namespace Hotel_3.WPF.ViewModels.Admin;
+namespace Hotel_3.WPF.ViewModels.Rooms;
 
 public class StatusViewModel : ViewModelBase
 {
@@ -31,11 +30,10 @@ public class StatusViewModel : ViewModelBase
         _useCase = useCase;
         AddStatusCommand = new AsyncRelayCommand(AddStatusAsync, () => true);
         UpdateStatusCommand = new AsyncRelayCommand(UpdateStatusAsync, () => SelectedItem != null);
-        _ = LoadStatusesAsync();
     }
 
     
-    private async Task LoadStatusesAsync()
+    public async Task LoadStatusesAsync()
     {
         var result = await _useCase.GetAllAsync();
         if (result is {IsSuccess:true, Data:not null})

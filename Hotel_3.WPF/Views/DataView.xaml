@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="Hotel_3.WPF.Views.DataView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <StackPanel Orientation="Horizontal"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+        
+        <StackPanel Margin="15">
+            <TextBlock Text="Импорт данных"
+                       FontSize="24"
+                       Margin="15"
+            />
+            <Button Content="Импортировать"
+                    Command="{Binding ImportCommand}"
+                    Background="Bisque"
+                    BorderBrush="Bisque"
+            />
+            
+        </StackPanel>
+        
+        <StackPanel Margin="15">
+            <TextBlock Text="Экспорт данных"
+                       FontSize="24"
+                       Margin="15"
+            />
+            <Button Content="Экспортировать"
+                    Command="{Binding ExportCommand}"
+                    Background="Aqua"
+                    BorderBrush="Aqua"
+            />
+        </StackPanel>
+    </StackPanel>
+</UserControl>

@@ -1,11 +1,7 @@
-﻿<UserControl x:Class="Hotel_3.WPF.Views.Admin.CategoryView"
+﻿<UserControl x:Class="Hotel_3.WPF.Views.Rooms.StatusView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:Hotel_3.WPF.Views.Admin"
-             xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
-             mc:Ignorable="d">
+             Loaded="StatusView_OnLoaded">
     
     <Grid>
         <Grid.RowDefinitions>
@@ -14,15 +10,15 @@
         </Grid.RowDefinitions>
         
         <StackPanel Grid.Row="0" 
-            Orientation="Horizontal">
-            <TextBlock Text="Категории комнат"
+                    Orientation="Horizontal">
+            <TextBlock Text="Статус комнат"
                        Margin="15"
                        Style="{StaticResource MaterialDesignHeadlineSmallTextBlock}"/>
             <Button Content="Добавить"
-                    Command="{Binding AddCategoryCommand}"
+                    Command="{Binding AddStatusCommand}"
                     Margin = "15 0"/>
             <Button Content="Обновить"
-                    Command="{Binding UpdateCategoryCommand}"
+                    Command="{Binding UpdateStatusCommand}"
                     Background="#FEB308"
                     BorderBrush="#FEB308"
                     Margin = "15 0"/>
@@ -30,7 +26,7 @@
         
         
         <DataGrid Grid.Row="1"
-            ItemsSource="{Binding Categories}"
+                  ItemsSource="{Binding Statuses}"
                   Height="Auto"
                   Style="{StaticResource MaterialDesignDataGrid}"
                   IsReadOnly="True"

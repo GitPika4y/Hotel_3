@@ -5,8 +5,8 @@
              xmlns:material='http://materialdesigninxaml.net/winfx/xaml/themes'
              xmlns:vm="clr-namespace:Hotel_3.WPF.ViewModels"
              xmlns:views="clr-namespace:Hotel_3.WPF.Views"
-             xmlns:viewsAdmin="clr-namespace:Hotel_3.WPF.Views.Admin"
-             xmlns:vmAdmin="clr-namespace:Hotel_3.WPF.ViewModels.Admin">
+             xmlns:roomsVM="clr-namespace:Hotel_3.WPF.ViewModels.Rooms"
+             xmlns:viewRooms="clr-namespace:Hotel_3.WPF.Views.Rooms">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -26,17 +26,22 @@
                         <views:MainView/>
                     </DataTemplate>
                     
-                    <!-- Admin -->
-                    <DataTemplate DataType="{x:Type vmAdmin:RoomsViewModel}">
-                        <viewsAdmin:RoomsView/>
+                    <!-- Data -->
+                    <DataTemplate DataType="{x:Type vm:DataViewModel}">
+                        <views:DataView/>
                     </DataTemplate>
                     
-                    <DataTemplate DataType="{x:Type vmAdmin:CategoryViewModel}">
-                        <viewsAdmin:CategoryView/>
+                    <!-- Rooms -->
+                    <DataTemplate DataType="{x:Type roomsVM:RoomsViewModel}">
+                        <viewRooms:RoomsView/>
                     </DataTemplate>
                     
-                    <DataTemplate DataType="{x:Type vmAdmin:StatusViewModel}">
-                        <viewsAdmin:StatusView/>
+                    <DataTemplate DataType="{x:Type roomsVM:CategoryViewModel}">
+                        <viewRooms:CategoryView/>
+                    </DataTemplate>
+                    
+                    <DataTemplate DataType="{x:Type roomsVM:StatusViewModel}">
+                        <viewRooms:StatusView/>
                     </DataTemplate>
                     
                 </ResourceDictionary>

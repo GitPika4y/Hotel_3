@@ -1,16 +1,13 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
-using Hotel_3.Domain.DTOs;
-using Hotel_3.Domain.Mappers;
 using Hotel_3.Domain.Models;
-using Hotel_3.Domain.Services.Category;
 using Hotel_3.WPF.Commands;
 using Hotel_3.WPF.Navigation;
 using Hotel_3.WPF.UseCases.Main.Category;
 using Hotel_3.WPF.Views.Modal;
 using MaterialDesignThemes.Wpf;
 
-namespace Hotel_3.WPF.ViewModels.Admin;
+namespace Hotel_3.WPF.ViewModels.Rooms;
 
 public class CategoryViewModel : ViewModelBase
 {
@@ -33,7 +30,19 @@ public class CategoryViewModel : ViewModelBase
         _useCase = useCase;
         AddCategoryCommand = new AsyncRelayCommand(AddCategory, () => true);
         UpdateCategoryCommand = new AsyncRelayCommand(UpdateCategory, () => SelectedItem != null);
-        _ = LoadCategoriesAsync();
+    }
+
+    public async Task LoadCategoriesAsync()
+    {
+        var result = await _useCase.GetAllAsync();
+        if (result is { IsSuccess: true, Data: not null })
+        {
+            Categories.Clear();
+            foreach (var category in result.Data)
+            {
+                Categories.Add(category);
+            }
+        }
     }
 
     private async Task UpdateCategory()
@@ -60,19 +69,6 @@ public class CategoryViewModel : ViewModelBase
                 await DialogHost.Show(new MessageModal(resource.Message, "Ок"));
             else
                 await LoadCategoriesAsync();
-        }
-    }
-
-    private async Task LoadCategoriesAsync()
-    {
-        var result = await _useCase.GetAllAsync();
-        if (result is { IsSuccess: true, Data: not null })
-        {
-            Categories.Clear();
-            foreach (var category in result.Data)
-            {
-                Categories.Add(category);
-            }
         }
     }
 

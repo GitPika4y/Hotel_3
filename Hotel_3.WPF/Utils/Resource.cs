@@ -25,6 +25,7 @@ public class Resource<T>(bool  isSuccess, T? data, string? message = null, Excep
     }
     
     public static Resource<T> Success(T data) => new(true, data);
+    public static Resource<T> Success(string message) => new(true, default, message);
     public static Resource<T> Fail(string? message) => new(false, default, message);
     public static Resource<T> Fail(Exception ex) => new(false, default, ex.Message, ex);
     public static Resource<T> Fail(string? message, Exception ex) => new(false, default, message, ex);

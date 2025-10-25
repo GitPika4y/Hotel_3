@@ -1,6 +1,10 @@
-﻿<UserControl x:Class="Hotel_3.WPF.Views.Admin.StatusView"
+﻿<UserControl x:Class="Hotel_3.WPF.Views.Rooms.CategoryView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             Loaded="CategoryView_OnLoaded">
     
     <Grid>
         <Grid.RowDefinitions>
@@ -9,15 +13,15 @@
         </Grid.RowDefinitions>
         
         <StackPanel Grid.Row="0" 
-                    Orientation="Horizontal">
-            <TextBlock Text="Статус комнат"
+            Orientation="Horizontal">
+            <TextBlock Text="Категории комнат"
                        Margin="15"
                        Style="{StaticResource MaterialDesignHeadlineSmallTextBlock}"/>
             <Button Content="Добавить"
-                    Command="{Binding AddStatusCommand}"
+                    Command="{Binding AddCategoryCommand}"
                     Margin = "15 0"/>
             <Button Content="Обновить"
-                    Command="{Binding UpdateStatusCommand}"
+                    Command="{Binding UpdateCategoryCommand}"
                     Background="#FEB308"
                     BorderBrush="#FEB308"
                     Margin = "15 0"/>
@@ -25,7 +29,7 @@
         
         
         <DataGrid Grid.Row="1"
-                  ItemsSource="{Binding Statuses}"
+            ItemsSource="{Binding Categories}"
                   Height="Auto"
                   Style="{StaticResource MaterialDesignDataGrid}"
                   IsReadOnly="True"
