@@ -119,18 +119,25 @@ public partial class AddUpdateRoomModal : UserControl, INotifyPropertyChanged
             Statuses.Add(status);
     }
 
-    private void Save()
+    private async Task Save()
     {
-        var roomDto = new  RoomDto
+        try
         {
-            Id = _id,
-            CategoryId = SelectedCategory.Id,
-            StatusId = SelectedStatus.Id,
-            Floor = SelectedFloor,
-            Number = SelectedNumber,
-        };
-        
-        DialogHost.CloseDialogCommand.Execute(roomDto, null);
+            var roomDto = new  RoomDto
+            {
+                Id = _id,
+                CategoryId = SelectedCategory.Id,
+                StatusId = SelectedStatus.Id,
+                Floor = SelectedFloor,
+                Number = SelectedNumber,
+            };
+            DialogHost.CloseDialogCommand.Execute(roomDto, null);
+        }
+        catch (Exception e)
+        {
+            DialogHost.CloseDialogCommand.Execute(null, null);
+            await DialogHost.Show(new MessageModal("Вы не выбрали Категорию или Статус комнаты"));
+        }
     }
 
 
