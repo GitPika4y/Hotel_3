@@ -8,7 +8,7 @@ public partial class MessageModal : UserControl
     public string ButtonText { get; }
     
     
-    public MessageModal(string message, string buttonText)
+    public MessageModal(string message, string buttonText = "Ок")
     {
         InitializeComponent();
         DataContext = this;
