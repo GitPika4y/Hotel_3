@@ -2,6 +2,8 @@
 using Hotel_3.WPF.Commands;
 using Hotel_3.WPF.Navigation;
 using Hotel_3.WPF.UseCases.Auth;
+using Hotel_3.WPF.Views.Modal;
+using MaterialDesignThemes.Wpf;
 
 namespace Hotel_3.WPF.ViewModels;
 
@@ -41,13 +43,11 @@ internal class AuthViewModel : ViewModelBase
 
 	private async Task SignInAsync()
 	{
-		var result = await  _authUseCase.SignInAsync(Login, Password);
-		if (result.IsSuccess)
-			Navigate(ViewModelCase.Main);
+		var result = await _authUseCase.SignInAsync(Login, Password);
+		if (result is { IsSuccess: false, Message: not null })
+			await DialogHost.Show(new MessageModal($"{result.Message}\n{result.GetExceptionDetails()}"));
 		else
-			ErrorMessage = result.Message ?? "Unknown Error";
-		
-		
+			Navigate(ViewModelCase.Main);
 	}
 
 	private bool CanSignIn()
