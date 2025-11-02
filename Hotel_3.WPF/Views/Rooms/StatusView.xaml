@@ -27,7 +27,6 @@
         
         <DataGrid Grid.Row="1"
                   ItemsSource="{Binding Statuses}"
-                  Height="Auto"
                   Style="{StaticResource MaterialDesignDataGrid}"
                   IsReadOnly="True"
                   SelectedItem="{Binding SelectedItem}"

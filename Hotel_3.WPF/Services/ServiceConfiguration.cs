@@ -1,11 +1,11 @@
-﻿using System.Xml.Serialization;
-using Hotel_3.Domain.Services;
+﻿using Hotel_3.Domain.Services;
 using Hotel_3.Domain.Services.Category;
 using Hotel_3.Domain.Services.Data;
 using Hotel_3.EntityFramework.Services;
 using Hotel_3.EntityFramework.Services.Data;
 using Hotel_3.WPF.Navigation;
 using Hotel_3.WPF.UseCases.Auth;
+using Hotel_3.WPF.UseCases.Clients;
 using Hotel_3.WPF.UseCases.Data;
 using Hotel_3.WPF.UseCases.Rooms.Category;
 using Hotel_3.WPF.UseCases.Rooms.Room;
@@ -31,6 +31,7 @@ public static class ServiceConfiguration
         services.AddTransient<IDataService, DataService>();
         services.AddTransient<IRoleService, RoleService>();
         services.AddTransient<IUserService, UserService>();
+        services.AddTransient<IClientService, ClientService>();
 		
         //UseCases second
         services.AddTransient<IAuthUseCase, AuthUseCase>();
@@ -40,6 +41,7 @@ public static class ServiceConfiguration
         services.AddTransient<IDataUseCase, DataUseCase>();
         services.AddTransient<IRoleUseCase, RoleUseCase>();
         services.AddTransient<IUserUseCase, UserUseCase>();
+        services.AddTransient<IClientUseCase, ClientUseCase>();
 		
         //VMs third
         services.AddTransient<ViewModelBase>();
@@ -51,6 +53,7 @@ public static class ServiceConfiguration
         services.AddTransient<StatusViewModel>();
         services.AddTransient<RoleViewModel>();
         services.AddTransient<UserViewModel>();
+        services.AddTransient<ClientViewModel>();
 
         //Singleton last
         services.AddSingleton<INavigator, Navigator>();

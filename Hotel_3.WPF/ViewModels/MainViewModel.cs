@@ -13,4 +13,5 @@ public class MainViewModel(INavigator navigator, IServiceProvider serviceProvide
     public DataViewModel DataViewModel { get; } = serviceProvider.GetRequiredService<DataViewModel>();
     public UserViewModel UserViewModel { get; } = serviceProvider.GetRequiredService<UserViewModel>();
     public RoleViewModel RoleViewModel { get; } = serviceProvider.GetRequiredService<RoleViewModel>();
+    public ClientViewModel ClientViewModel { get; } = serviceProvider.GetRequiredService<ClientViewModel>();
 }

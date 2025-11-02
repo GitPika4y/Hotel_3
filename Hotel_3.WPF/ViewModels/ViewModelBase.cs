@@ -15,7 +15,7 @@ namespace Hotel_3.WPF.ViewModels
 			Console.WriteLine($"Now is {viewModelCase} VM");
 		}
 
-		private void OnPropertyChange([CallerMemberName] string? propertyName = null)
+		protected void OnPropertyChange([CallerMemberName] string? propertyName = null)
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}

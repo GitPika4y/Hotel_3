@@ -30,7 +30,6 @@
         
         <DataGrid Grid.Row="1"
             ItemsSource="{Binding Categories}"
-            Height="Auto"
             Style="{StaticResource MaterialDesignDataGrid}"
             IsReadOnly="True"
             SelectedItem="{Binding SelectedItem}"

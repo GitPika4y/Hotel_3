@@ -57,6 +57,11 @@
                         <viewUsers:RoleView/>
                     </DataTemplate>
                     
+                    <!-- Clients -->
+                    <DataTemplate DataType="{x:Type vm:ClientViewModel}">
+                        <views:ClientView/>
+                    </DataTemplate>
+                    
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

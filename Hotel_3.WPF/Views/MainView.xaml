@@ -11,6 +11,7 @@
             <!-- Rooms -->
             <TabItem Header="Комнаты">
                 <TabControl Style="{StaticResource MaterialDesignNavigationRailTabControl}">
+                    <!-- TODO Бронирования -->
                     <TabItem Header="Бронирования" Width="Auto"/>
                     <TabItem Header="Комнаты" Content="{Binding RoomsViewModel}" Width="Auto"/>
                     <TabItem Header="Категории" Content="{Binding CategoryViewModel}" Width="Auto"/>
@@ -18,8 +19,7 @@
                 </TabControl>
             </TabItem>
             
-            <!-- Clients TODO Content-->
-            <TabItem Header="Клиенты" Width="Auto"/>
+            <TabItem Header="Клиенты" Content="{Binding ClientViewModel}" Width="Auto"/>
             
             <TabItem Header="Пользователи">
                 <TabControl Style="{StaticResource MaterialDesignNavigationRailTabControl}">
