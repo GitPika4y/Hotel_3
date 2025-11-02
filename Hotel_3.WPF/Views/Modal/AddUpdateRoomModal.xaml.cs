@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Hotel_3.Domain.DTOs;
 using Hotel_3.Domain.Models;
 using Hotel_3.Domain.Services;
 using Hotel_3.Domain.Services.Category;
@@ -67,23 +66,23 @@ public partial class AddUpdateRoomModal : UserControl, INotifyPropertyChanged
     
     public ICommand SaveCommand { get; }
 
-    public AddUpdateRoomModal(IServiceProvider serviceProvider, RoomDto? roomDto = null)
+    public AddUpdateRoomModal(IServiceProvider serviceProvider, Room? room = null)
     {
         InitializeComponent();
         DataContext = this;
         SaveCommand = new RelayCommand(_ => Save());
-        _ = InitializeAsync(serviceProvider, roomDto);
+        _ = InitializeAsync(serviceProvider, room);
     }
 
-    private async Task InitializeAsync(IServiceProvider serviceProvider, RoomDto? roomDto)
+    private async Task InitializeAsync(IServiceProvider serviceProvider, Room? room)
     {
          await InitializeComboBoxItemsSource(serviceProvider);
-         await AssignProperties(roomDto);
+         await AssignProperties(room);
     }
 
-    private async Task AssignProperties(RoomDto? roomDto)
+    private async Task AssignProperties(Room? room)
     {
-        if (roomDto is null)
+        if (room is null)
         {
             _id = 0;
             SelectedCategory = Categories.First();
@@ -93,11 +92,11 @@ public partial class AddUpdateRoomModal : UserControl, INotifyPropertyChanged
         }
         else
         {
-            _id = roomDto.Id;
-            SelectedFloor = roomDto.Floor;
-            SelectedNumber = roomDto.Number;
-            SelectedCategory = Categories.First(c => c.Id == roomDto.CategoryId);
-            SelectedStatus = Statuses.First(s => s.Id == roomDto.StatusId);
+            _id = room.Id;
+            SelectedFloor = room.Floor;
+            SelectedNumber = room.Number;
+            SelectedCategory = Categories.First(c => c.Id == room.RoomCategoryId);
+            SelectedStatus = Statuses.First(s => s.Id == room.RoomStatusId);
         }
     }
 
@@ -123,20 +122,20 @@ public partial class AddUpdateRoomModal : UserControl, INotifyPropertyChanged
     {
         try
         {
-            var roomDto = new  RoomDto
+            var room = new  Room
             {
                 Id = _id,
-                CategoryId = SelectedCategory.Id,
-                StatusId = SelectedStatus.Id,
+                RoomCategoryId = SelectedCategory.Id,
+                RoomStatusId = SelectedStatus.Id,
                 Floor = SelectedFloor,
                 Number = SelectedNumber,
             };
-            DialogHost.CloseDialogCommand.Execute(roomDto, null);
+            DialogHost.CloseDialogCommand.Execute(room, null);
         }
         catch (Exception e)
         {
             DialogHost.CloseDialogCommand.Execute(null, null);
-            await DialogHost.Show(new MessageModal("Вы не выбрали Категорию или Статус комнаты"));
+            await DialogHost.Show(new MessageModal($"Вы не выбрали Категорию или Статус комнаты\n{e}"));
         }
     }
 

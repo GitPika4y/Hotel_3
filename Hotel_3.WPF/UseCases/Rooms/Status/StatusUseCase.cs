@@ -2,7 +2,7 @@
 using Hotel_3.Domain.Services;
 using Hotel_3.WPF.Utils;
 
-namespace Hotel_3.WPF.UseCases.Main.Status;
+namespace Hotel_3.WPF.UseCases.Rooms.Status;
 
 public class StatusUseCase(IStatusService service) : IStatusUseCase
 {

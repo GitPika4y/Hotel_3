@@ -21,8 +21,12 @@
             <!-- Clients TODO Content-->
             <TabItem Header="Клиенты" Width="Auto"/>
             
-            <!-- Users TODO Content-->
-            <TabItem Header="Пользователи" Width="Auto"/>
+            <TabItem Header="Пользователи">
+                <TabControl Style="{StaticResource MaterialDesignNavigationRailTabControl}">
+                    <TabItem Header="Пользователи" Content="{Binding UserViewModel}" Width="Auto"/>
+                    <TabItem Header="Роли" Content="{Binding RoleViewModel}" Width="Auto"/>
+                </TabControl>
+            </TabItem>
             
             <TabItem Header="Данные" Content="{Binding DataViewModel}" Width="Auto" />
             

@@ -1,7 +1,7 @@
 ﻿using Hotel_3.Domain.Services;
 using Hotel_3.WPF.Utils;
 
-namespace Hotel_3.WPF.UseCases.Main.Room;
+namespace Hotel_3.WPF.UseCases.Rooms.Room;
 
 public class RoomUseCase(IRoomService service) : IRoomUseCase
 {

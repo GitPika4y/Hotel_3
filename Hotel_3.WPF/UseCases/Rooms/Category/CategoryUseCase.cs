@@ -2,7 +2,7 @@
 using Hotel_3.Domain.Services.Category;
 using Hotel_3.WPF.Utils;
 
-namespace Hotel_3.WPF.UseCases.Main.Category;
+namespace Hotel_3.WPF.UseCases.Rooms.Category;
 
 public class CategoryUseCase(ICategoryService service) : ICategoryUseCase
 {

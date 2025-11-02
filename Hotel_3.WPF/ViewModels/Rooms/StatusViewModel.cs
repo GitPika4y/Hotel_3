@@ -3,7 +3,7 @@ using System.Windows.Input;
 using Hotel_3.Domain.Models;
 using Hotel_3.WPF.Commands;
 using Hotel_3.WPF.Navigation;
-using Hotel_3.WPF.UseCases.Main.Status;
+using Hotel_3.WPF.UseCases.Rooms.Status;
 using Hotel_3.WPF.Views.Modal;
 using MaterialDesignThemes.Wpf;
 
@@ -48,7 +48,7 @@ public class StatusViewModel : ViewModelBase
 
     private async Task AddStatusAsync()
     {
-        var result = await DialogHost.Show(new AddUpdateCategoryStatusModal(
+        var result = await DialogHost.Show(new AddUpdateCategoryStatusRoleModal(
             "Добавить статус",
             "Сохранить",
             "Название статуса"));
@@ -73,7 +73,7 @@ public class StatusViewModel : ViewModelBase
         var item = SelectedItem;
         if (item == null) return;
         
-        var result = await DialogHost.Show(new AddUpdateCategoryStatusModal(
+        var result = await DialogHost.Show(new AddUpdateCategoryStatusRoleModal(
             "Обновить статус",
             "Изменить",
             "Название статуса",

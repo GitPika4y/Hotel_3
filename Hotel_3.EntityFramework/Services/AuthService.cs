@@ -1,10 +1,10 @@
 ﻿using Hotel_3.Domain.Models;
-using Hotel_3.Domain.Services.Auth;
+using Hotel_3.Domain.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace Hotel_3.EntityFramework.Services;
 
-public class UserDataService : IUserDataService
+public class AuthService : IAuthService
 {
     public async Task<User?> GetUserByLoginAsync(string login)
     {

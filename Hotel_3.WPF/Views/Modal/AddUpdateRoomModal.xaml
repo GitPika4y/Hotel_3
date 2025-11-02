@@ -57,7 +57,6 @@
         <Button Content="Сохранить"
                 Margin="0 15"
                 Command="{Binding SaveCommand}"
-                CommandParameter="{Binding CreateRoomDto}"
             />
         
         <Button

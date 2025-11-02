@@ -30,9 +30,17 @@
         
         <DataGrid Grid.Row="1"
                   ItemsSource="{Binding Rooms}"
-                  Height="Auto"
                   Style="{StaticResource MaterialDesignDataGrid}"
                   IsReadOnly="True"
-                  SelectedItem="{Binding SelectedItem}"/>
+                  SelectedItem="{Binding SelectedItem}"
+                  AutoGenerateColumns="False">
+            
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Этаж" Binding="{Binding Floor}"/>
+                <DataGridTextColumn Header="Номер" Binding="{Binding Number}"/>
+                <DataGridTextColumn Header="Категория" Binding="{Binding RoomCategory.Name}"/>
+                <DataGridTextColumn Header="Статус" Binding="{Binding RoomStatus.Name}"/>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </UserControl>

@@ -3,7 +3,7 @@ using System.Windows.Input;
 using Hotel_3.Domain.Models;
 using Hotel_3.WPF.Commands;
 using Hotel_3.WPF.Navigation;
-using Hotel_3.WPF.UseCases.Main.Category;
+using Hotel_3.WPF.UseCases.Rooms.Category;
 using Hotel_3.WPF.Views.Modal;
 using MaterialDesignThemes.Wpf;
 
@@ -50,7 +50,7 @@ public class CategoryViewModel : ViewModelBase
         var item = SelectedItem;
         if (item == null) return;
         
-        var result = await DialogHost.Show(new AddUpdateCategoryStatusModal(
+        var result = await DialogHost.Show(new AddUpdateCategoryStatusRoleModal(
             "Обновить категорию",
             "Изменить",
             "Название категории",
@@ -66,7 +66,7 @@ public class CategoryViewModel : ViewModelBase
             
             var resource = await _useCase.UpdateAsync(updatedItem);
             if (resource is { IsSuccess: false, Message: not null })
-                await DialogHost.Show(new MessageModal(resource.Message, "Ок"));
+                await DialogHost.Show(new MessageModal(resource.Message));
             else
                 await LoadCategoriesAsync();
         }
@@ -74,7 +74,7 @@ public class CategoryViewModel : ViewModelBase
 
     private async Task AddCategory()
     {
-        var result = await DialogHost.Show(new AddUpdateCategoryStatusModal(
+        var result = await DialogHost.Show(new AddUpdateCategoryStatusRoleModal(
             "Добавить категорию",
             "Сохранить",
             "Название категории"));

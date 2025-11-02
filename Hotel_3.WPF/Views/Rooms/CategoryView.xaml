@@ -30,9 +30,15 @@
         
         <DataGrid Grid.Row="1"
             ItemsSource="{Binding Categories}"
-                  Height="Auto"
-                  Style="{StaticResource MaterialDesignDataGrid}"
-                  IsReadOnly="True"
-                  SelectedItem="{Binding SelectedItem}"/>
+            Height="Auto"
+            Style="{StaticResource MaterialDesignDataGrid}"
+            IsReadOnly="True"
+            SelectedItem="{Binding SelectedItem}"
+            AutoGenerateColumns="False">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Название" Binding="{Binding Name}"/>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </UserControl>

@@ -3,7 +3,7 @@ using System.Windows.Controls;
 
 namespace Hotel_3.WPF.Views.Modal;
 
-public partial class AddUpdateCategoryStatusModal : UserControl, INotifyPropertyChanged
+public partial class AddUpdateCategoryStatusRoleModal : UserControl, INotifyPropertyChanged
 {
     public string Title { get; }
     public string ButtonText { get; }
@@ -16,7 +16,7 @@ public partial class AddUpdateCategoryStatusModal : UserControl, INotifyProperty
         set => SetProperty(ref _categoryName, value);
     }
     
-    public AddUpdateCategoryStatusModal(string title, string buttonText, string hintText, string? categoryName = null)
+    public AddUpdateCategoryStatusRoleModal(string title, string buttonText, string hintText, string? categoryName = null)
     {
         InitializeComponent();
         DataContext = this;

@@ -3,10 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Hotel_3.WPF"
              xmlns:material='http://materialdesigninxaml.net/winfx/xaml/themes'
+             
              xmlns:vm="clr-namespace:Hotel_3.WPF.ViewModels"
+             xmlns:roomsVm="clr-namespace:Hotel_3.WPF.ViewModels.Rooms"
+             xmlns:usersVm="clr-namespace:Hotel_3.WPF.ViewModels.Users"
+             
              xmlns:views="clr-namespace:Hotel_3.WPF.Views"
-             xmlns:roomsVM="clr-namespace:Hotel_3.WPF.ViewModels.Rooms"
-             xmlns:viewRooms="clr-namespace:Hotel_3.WPF.Views.Rooms">
+             xmlns:viewRooms="clr-namespace:Hotel_3.WPF.Views.Rooms"
+             xmlns:viewUsers="clr-namespace:Hotel_3.WPF.Views.Users">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -32,16 +36,25 @@
                     </DataTemplate>
                     
                     <!-- Rooms -->
-                    <DataTemplate DataType="{x:Type roomsVM:RoomsViewModel}">
+                    <DataTemplate DataType="{x:Type roomsVm:RoomsViewModel}">
                         <viewRooms:RoomsView/>
                     </DataTemplate>
                     
-                    <DataTemplate DataType="{x:Type roomsVM:CategoryViewModel}">
+                    <DataTemplate DataType="{x:Type roomsVm:CategoryViewModel}">
                         <viewRooms:CategoryView/>
                     </DataTemplate>
                     
-                    <DataTemplate DataType="{x:Type roomsVM:StatusViewModel}">
+                    <DataTemplate DataType="{x:Type roomsVm:StatusViewModel}">
                         <viewRooms:StatusView/>
+                    </DataTemplate>
+                    
+                    <!-- Users -->
+                    <DataTemplate DataType="{x:Type usersVm:UserViewModel}">
+                        <viewUsers:UserView/>
+                    </DataTemplate>
+                    
+                    <DataTemplate DataType="{x:Type usersVm:RoleViewModel}">
+                        <viewUsers:RoleView/>
                     </DataTemplate>
                     
                 </ResourceDictionary>

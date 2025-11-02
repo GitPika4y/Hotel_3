@@ -1,7 +1,7 @@
-﻿<UserControl x:Class="Hotel_3.WPF.Views.Rooms.StatusView"
+﻿<UserControl x:Class="Hotel_3.WPF.Views.Users.RoleView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             Loaded="StatusView_OnLoaded">
+             Loaded="RoleView_OnLoaded">
     
     <Grid>
         <Grid.RowDefinitions>
@@ -9,24 +9,24 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         
-        <StackPanel Grid.Row="0" 
+        <StackPanel Grid.Row="0"  
                     Orientation="Horizontal">
-            <TextBlock Text="Статус комнат"
+            <TextBlock Text="Роли"
                        Margin="15"
                        Style="{StaticResource MaterialDesignHeadlineSmallTextBlock}"/>
             <Button Content="Добавить"
-                    Command="{Binding AddStatusCommand}"
-                    Margin = "15 0"/>
+                    Command="{Binding AddRoleCommand}"
+                    Margin="15 0"/>
             <Button Content="Обновить"
-                    Command="{Binding UpdateStatusCommand}"
+                    Command="{Binding UpdateRoleCommand}"
                     Background="#FEB308"
                     BorderBrush="#FEB308"
-                    Margin = "15 0"/>
+                    Margin="15 0"/>
         </StackPanel>
         
         
         <DataGrid Grid.Row="1"
-                  ItemsSource="{Binding Statuses}"
+                  ItemsSource="{Binding Roles}"
                   Height="Auto"
                   Style="{StaticResource MaterialDesignDataGrid}"
                   IsReadOnly="True"

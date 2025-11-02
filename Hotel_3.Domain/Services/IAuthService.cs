@@ -1,8 +1,8 @@
 ﻿using Hotel_3.Domain.Models;
 
-namespace Hotel_3.Domain.Services.Auth;
+namespace Hotel_3.Domain.Services;
 
-public interface IUserDataService
+public interface IAuthService
 {
     Task<User?> GetUserByLoginAsync(string login);
 }

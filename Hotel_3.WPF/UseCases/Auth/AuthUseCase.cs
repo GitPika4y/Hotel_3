@@ -1,10 +1,10 @@
 ﻿using Hotel_3.Domain.Models;
-using Hotel_3.Domain.Services.Auth;
+using Hotel_3.Domain.Services;
 using Hotel_3.WPF.Utils;
 
 namespace Hotel_3.WPF.UseCases.Auth;
 
-public class AuthUseCase(IUserDataService userService) : IAuthUseCase
+public class AuthUseCase(IAuthService userService) : IAuthUseCase
 {
     public async Task<Resource<User>> SignInAsync(string login, string password)
     {
