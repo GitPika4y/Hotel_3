@@ -13,6 +13,9 @@ public class DataService : IDataService
     private readonly GenericGetAllAsyncService<Room> _roomService = new();
     private readonly GenericGetAllAsyncService<RoomCategory> _roomCategoryService = new();
     private readonly GenericGetAllAsyncService<RoomStatus> _roomStatusService = new();
+    private readonly GenericGetAllAsyncService<Client> _clientService = new();
+    private readonly GenericGetAllAsyncService<Role> _roleService = new();
+    private readonly GenericGetAllAsyncService<User> _userService = new();
     
     public async Task ExportToJsonAsync(string path)
     {
@@ -20,12 +23,18 @@ public class DataService : IDataService
                 r => r.RoomCategory,
                 r => r.RoomStatus))
             .Select(r => r.ToExport());
+        var users = (await _userService.GetAllAsync(
+                r => r.Role))
+            .Select(u => u.ToExport());
         
         ExportData allData = new()
         {
             Rooms = rooms,
             RoomCategories = (await _roomCategoryService.GetAllAsync()).Select(c => c.ToExport()),
             RoomStatuses = (await _roomStatusService.GetAllAsync()).Select(s => s.ToExport()),
+            Users = users,
+            Roles = (await _roleService.GetAllAsync()).Select(r => r.ToExport()),
+            Clients = (await _clientService.GetAllAsync()).Select(c=>c.ToExport())
         };
 
         var json = JsonConvert.SerializeObject(allData);
@@ -46,50 +55,77 @@ public class DataService : IDataService
 
     private async Task ImportDataAsync(HotelDbContext context, ExportData data)
     {
-        foreach (var status in data.RoomStatuses)
-        {
-            var existingStatus = await context.RoomStatuses.FirstOrDefaultAsync(s => s.Name == status.Name);
+        await ImportEntitiesAsync(
+            data.RoomStatuses,
+            async s => await context.RoomStatuses.AnyAsync(x=>x.Name == s.Name),
+            async s => await context.RoomStatuses.AddAsync(new RoomStatus {Name = s.Name})
+        );
 
-            if (existingStatus != null) continue;
-            
-            var newStatus = new RoomStatus{ Name = status.Name };
-            await context.RoomStatuses.AddAsync(newStatus);
-        }
-        await context.SaveChangesAsync();
+        await ImportEntitiesAsync(
+            data.RoomCategories,
+            async c => await context.RoomCategories.AnyAsync(x => x.Name == c.Name),
+            async c => await context.RoomCategories.AddAsync(new RoomCategory { Name = c.Name } )
+        );
 
-        foreach (var category in data.RoomCategories)
-        {
-            var existingCategory = await context.RoomCategories.FirstOrDefaultAsync(s => s.Name == category.Name);
-            
-            if (existingCategory != null) continue;
-            var newCategory = new RoomCategory { Name = category.Name };
-            await context.RoomCategories.AddAsync(newCategory);
-        }
-        await context.SaveChangesAsync();
-
-        foreach (var room in data.Rooms)
-        {
-            var existingRoom = await context.Rooms
-                .FirstOrDefaultAsync(r => r.Floor == room.Floor && r.Number == room.Number);
-
-            if (existingRoom != null) continue;
-
-            var category = await context.RoomCategories
-                .FirstOrDefaultAsync(c => c.Name == room.RoomCategoryName);
-            var status = await context.RoomStatuses
-                .FirstOrDefaultAsync(s => s.Name == room.RoomStatusName);
-
-            if (category == null || status == null) continue;
-            
-            var newRoom = new Room
+        await ImportEntitiesAsync(
+            data.Rooms,
+            async r => await context.Rooms.AnyAsync(x=> x.Floor == r.Floor && x.Number == r.Number),
+            async r =>
             {
-                Floor = room.Floor,
-                Number = room.Number,
-                RoomCategoryId = category.Id,
-                RoomStatusId = status.Id,
-            };
-            await context.Rooms.AddAsync(newRoom);
-        }
+                var category = await context.RoomCategories
+                    .FirstOrDefaultAsync(c=>c.Name == r.RoomCategoryName);
+                var status = await context.RoomStatuses
+                    .FirstOrDefaultAsync(s => s.Name == r.RoomStatusName);
+                if (category == null || status == null) return;
+                await context.Rooms.AddAsync(new Room
+                {
+                    Floor = r.Floor,
+                    Number = r.Number,
+                    RoomCategoryId = category.Id,
+                    RoomStatusId = status.Id,
+                });
+            }
+        );
+
+        await ImportEntitiesAsync(
+            data.Roles,
+            async r => await context.Roles.AnyAsync(x=> x.Name == r.Name),
+            async r => await  context.Roles.AddAsync(new Role { Name = r.Name } )
+        );
+
+        await ImportEntitiesAsync(
+            data.Users,
+            async u => await context.Users.AnyAsync(x=> 
+                x.Login == u.Login &&
+                x.Password == u.Password),
+            async u =>
+            {
+                var role = await context.Roles
+                    .FirstOrDefaultAsync(r => r.Name == u.RoleName);
+                if (role == null) return;
+                await context.Users.AddAsync(new User 
+                    { 
+                        Login = u.Login,
+                        Password = u.Password,
+                        RoleId = role.Id,
+                    }
+                );
+            }
+        );
+
         await context.SaveChangesAsync();
+    }
+
+    private async Task ImportEntitiesAsync<T>(
+        IEnumerable<T> items,
+        Func<T, Task<bool>> existAsync,
+        Func<T, Task> addAsync)
+    {
+        foreach (var item in items)
+        {
+            if (await existAsync(item)) continue;
+            
+            await addAsync(item);
+        }
     }
 }

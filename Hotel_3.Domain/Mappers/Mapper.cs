@@ -42,4 +42,33 @@ public static class Mapper
             Name = status.Name,
         };
     }
+
+    public static Role ToExport(this Role role)
+    {
+        return new Role
+        {
+            Name = role.Name,
+        };
+    }
+
+    public static UserExport ToExport(this User user)
+    {
+        return new UserExport
+        {
+            Login = user.Login,
+            Password = user.Password,
+            RoleName = user.Role.Name,
+        };
+    }
+
+    public static Client ToExport(this Client client)
+    {
+        return new Client
+        {
+            FirstName = client.FirstName,
+            LastName = client.LastName,
+            MiddleName = client.MiddleName,
+            CreatedAt = client.CreatedAt,
+        };
+    }
 }
