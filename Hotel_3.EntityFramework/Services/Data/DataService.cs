@@ -10,12 +10,12 @@ namespace Hotel_3.EntityFramework.Services.Data;
 
 public class DataService : IDataService
 {
-    private readonly GenericGetAllAsyncService<Room> _roomService = new();
+    private readonly GenericGetAllIncludeAsyncService<Room> _roomService = new();
     private readonly GenericGetAllAsyncService<RoomCategory> _roomCategoryService = new();
     private readonly GenericGetAllAsyncService<RoomStatus> _roomStatusService = new();
     private readonly GenericGetAllAsyncService<Client> _clientService = new();
     private readonly GenericGetAllAsyncService<Role> _roleService = new();
-    private readonly GenericGetAllAsyncService<User> _userService = new();
+    private readonly GenericGetAllIncludeAsyncService<User> _userService = new();
     
     public async Task ExportToJsonAsync(string path)
     {

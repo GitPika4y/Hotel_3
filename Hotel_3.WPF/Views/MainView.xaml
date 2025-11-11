@@ -11,8 +11,7 @@
             <!-- Rooms -->
             <TabItem Header="Комнаты">
                 <TabControl Style="{StaticResource MaterialDesignNavigationRailTabControl}">
-                    <!-- TODO Бронирования -->
-                    <TabItem Header="Бронирования" Width="Auto"/>
+                    <TabItem Header="Бронирования" Content="{Binding BookingViewModel}" Width="Auto"/>
                     <TabItem Header="Комнаты" Content="{Binding RoomsViewModel}" Width="Auto"/>
                     <TabItem Header="Категории" Content="{Binding CategoryViewModel}" Width="Auto"/>
                     <TabItem Header="Статусы" Content="{Binding StatusViewModel}" Width="Auto"/>

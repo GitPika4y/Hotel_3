@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="Hotel_3.WPF.Views.Rooms.BookingView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Loaded="BookingView_OnLoaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <StackPanel Grid.Row="0" 
+                    Orientation="Horizontal"
+                    VerticalAlignment="Top">
+            <TextBlock Text="Бронирования"
+                       Margin="15"
+                       Style="{StaticResource MaterialDesignHeadlineSmallTextBlock}"/>
+            <Button Content="Добавить"
+                    Command="{Binding AddBookingCommand}"
+                    Margin = "15 0"/>
+            <Button Content="Обновить"
+                    Command="{Binding UpdateBookingCommand}"
+                    Background="#FEB308"
+                    BorderBrush="#FEB308"
+                    Margin = "15 0"/>
+        </StackPanel>
+        
+        
+        <DataGrid Grid.Row="1"
+                  ItemsSource="{Binding Bookings}"
+                  Style="{StaticResource MaterialDesignDataGrid}"
+                  IsReadOnly="True"
+                  SelectedItem="{Binding SelectedItem}"
+                  AutoGenerateColumns="False">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Фамилия клиента" Binding="{Binding Client.LastName}"/>
+                <DataGridTextColumn Header="Имя клиента" Binding="{Binding Client.FirstName}"/>
+                <DataGridTextColumn Header="Этаж комнаты" Binding="{Binding Room.Floor}"/>
+                <DataGridTextColumn Header="Номер комнаты" Binding="{Binding Room.Number}"/>
+                <DataGridTextColumn Header="Категория комнаты" Binding="{Binding Room.RoomCategory.Name}"/>
+                <DataGridTextColumn Header="Статус комнаты" Binding="{Binding Room.RoomStatus.Name}"/>
+                <DataGridTextColumn Header="Дата въезда" Binding="{Binding EnterDate, StringFormat=dd.MM.yyyy | HH:mm}"/>
+                <DataGridTextColumn Header="Дата выезда" Binding="{Binding ExitDate , StringFormat=dd.MM.yyyy | HH:mm}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

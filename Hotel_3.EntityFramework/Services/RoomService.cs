@@ -9,7 +9,8 @@ public class RoomService : IRoomService
 {
     private readonly GenericAddAsyncService<Room> _adder = new();
     private readonly GenericUpdateAsyncService<Room> _updater = new();
-    private readonly GenericGetAllAsyncService<Room> _getterAll = new();
+    private readonly GenericGetAllIncludeAsyncService<Room> _getterAll = new();
+    private readonly GenericGetByIdAsyncService<Room> _getById = new();
 
 
     public async Task<Room?> AddAsync(Room entity)
@@ -22,13 +23,18 @@ public class RoomService : IRoomService
         return await _updater.UpdateAsync(entity);
     }
 
-    public Task<IEnumerable<Room>> GetAllAsync(params Expression<Func<Room, object>>[] includes)
+    public async Task<IEnumerable<Room>> GetAllAsync(params Expression<Func<Room, object>>[] includes)
     {
-        return  _getterAll.GetAllAsync(includes);
+        return await _getterAll.GetAllAsync(includes);
     }
 
-    public async Task<IEnumerable<Room>> GetAllAsync()
+    public async Task<IEnumerable<Room>> GetAllAsync(params string[] includes)
     {
-        return await _getterAll.GetAllAsync();
+        return await _getterAll.GetAllAsync(includes);
+    }
+
+    public async Task<Room?> GetByIdAsync(int id)
+    {
+        return await _getById.GetByIdAsync(id);
     }
 }

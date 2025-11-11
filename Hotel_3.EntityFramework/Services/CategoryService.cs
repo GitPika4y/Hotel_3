@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 using Hotel_3.Domain.Models;
-using Hotel_3.Domain.Services.Category;
+using Hotel_3.Domain.Services;
 using Hotel_3.EntityFramework.Services.Base;
 
 namespace Hotel_3.EntityFramework.Services;
@@ -15,12 +15,7 @@ public class CategoryService : ICategoryService
     {
         return await _addAsync.AddAsync(entity);
     }
-
-    public async Task<IEnumerable<RoomCategory>> GetAllAsync(params Expression<Func<RoomCategory, object>>[] includes)
-    {
-        return await _getAll.GetAllAsync(includes);
-    }
-
+    
     public async Task<IEnumerable<RoomCategory>> GetAllAsync()
     {
         return await _getAll.GetAllAsync();

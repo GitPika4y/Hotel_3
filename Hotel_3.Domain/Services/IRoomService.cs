@@ -1,11 +1,10 @@
-﻿using Hotel_3.Domain.Services.Base;
+﻿using Hotel_3.Domain.Models;
+using Hotel_3.Domain.Services.Base;
 
 namespace Hotel_3.Domain.Services;
 
 public interface IRoomService :
-    IAddAsyncService<Models.Room>,
-    IUpdateAsyncService<Models.Room>,
-    IGetAllAsyncService<Models.Room>
-{
-    
-}
+    IAddAsyncService<Room>,
+    IUpdateAsyncService<Room>,
+    IGetAllIncludeAsyncService<Room>,
+    IGetByIdAsyncService<Room>;

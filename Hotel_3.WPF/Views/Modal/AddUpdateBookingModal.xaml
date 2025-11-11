@@ -1,0 +1,71 @@
+﻿<UserControl x:Class="Hotel_3.WPF.Views.Modal.AddUpdateBookingModal"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes">
+    <Grid MaxHeight="800">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        
+        <!-- Column 0 -->
+        <StackPanel Grid.Column="0"
+            Margin="15">
+            <TextBlock Text="{Binding Title}"
+                       FontSize="24"
+                       HorizontalAlignment="Center"
+                       Margin="0 15"/>
+            
+            <DatePicker SelectedDate="{Binding EnterDate}"
+                        md:HintAssist.Hint="Дата въезда"
+                        Style="{StaticResource MaterialDesignOutlinedDatePicker}"
+                        Margin="0 15"/>
+            
+            <DatePicker SelectedDate="{Binding ExitDate}"
+                        DisplayDateStart="{Binding EnterDate}"
+                        md:HintAssist.Hint="Дата выезда"
+                        Style="{StaticResource MaterialDesignOutlinedDatePicker}"
+                        Margin="0 15"/>
+            
+            <Button Content="{Binding ConfirmButtonText}"
+                    Command="{Binding AddUpdateCommand}"
+                    Margin="0 15"/>
+            
+            <Button Content="Назад"
+                    Command="{x:Static md:DialogHost.CloseDialogCommand}"
+                    Style="{StaticResource MaterialDesignFlatSecondaryButton}"
+                    Margin="0 15"/>
+        </StackPanel>
+        
+        <!-- Column 1 -->
+        <DataGrid Grid.Column="1"
+                  ItemsSource="{Binding Clients}"
+                  SelectedItem="{Binding SelectedClient}"
+                  IsReadOnly="True"
+                  Margin="15"
+                  AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}"/>
+                <DataGridTextColumn Header="Имя" Binding="{Binding FirstName}"/>
+                <DataGridTextColumn Header="Отчество" Binding="{Binding MiddleName}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        
+        <!-- Column 2 -->
+        <DataGrid Grid.Column="2"
+                  ItemsSource="{Binding Rooms}"
+                  SelectedItem="{Binding SelectedRoom}"
+                  IsReadOnly="True"
+                  Margin="15"
+                  AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Этаж" Binding="{Binding Floor}"/>
+                <DataGridTextColumn Header="Номер" Binding="{Binding Number}"/>
+                <DataGridTextColumn Header="Категория" Binding="{Binding RoomCategory.Name}"/>
+                <DataGridTextColumn Header="Статус" Binding="{Binding RoomStatus.Name}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+    
+</UserControl>

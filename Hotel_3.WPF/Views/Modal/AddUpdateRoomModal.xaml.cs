@@ -5,7 +5,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Hotel_3.Domain.Models;
 using Hotel_3.Domain.Services;
-using Hotel_3.Domain.Services.Category;
 using Hotel_3.WPF.Commands;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Extensions.DependencyInjection;

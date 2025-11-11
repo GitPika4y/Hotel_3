@@ -21,13 +21,8 @@ public class ClientService : IClientService
         return await _updateService.UpdateAsync(entity);
     }
 
-    public async Task<IEnumerable<Client>> GetAllAsync(params Expression<Func<Client, object>>[] includes)
-    {
-        return await _getService.GetAllAsync(includes);
-    }
-
     public async Task<IEnumerable<Client>> GetAllAsync()
-    { 
-        return await _getService.GetAllAsync(); 
+    {
+        return await _getService.GetAllAsync();
     }
 }

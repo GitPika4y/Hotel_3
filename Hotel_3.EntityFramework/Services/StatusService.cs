@@ -20,12 +20,7 @@ public class StatusService : IStatusService
     {
         return await _updateAsync.UpdateAsync(entity);
     }
-
-    public async Task<IEnumerable<RoomStatus>> GetAllAsync(params Expression<Func<RoomStatus, object>>[] includes)
-    {
-        return await _getAllAsync.GetAllAsync(includes);
-    }
-
+    
     public async Task<IEnumerable<RoomStatus>> GetAllAsync()
     {
         return await _getAllAsync.GetAllAsync();

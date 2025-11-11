@@ -21,13 +21,8 @@ public class RoleService : IRoleService
         return await _updateService.UpdateAsync(entity);
     }
 
-    public async Task<IEnumerable<Role>> GetAllAsync(params Expression<Func<Role, object>>[] includes)
-    {
-        return await _getAllService.GetAllAsync(includes);
-    }
-
     public async Task<IEnumerable<Role>> GetAllAsync()
     {
-        return await _getAllService.GetAllAsync([]);
+        return await _getAllService.GetAllAsync();
     }
 }

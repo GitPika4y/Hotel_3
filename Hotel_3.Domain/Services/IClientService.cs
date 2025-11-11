@@ -6,7 +6,4 @@ namespace Hotel_3.Domain.Services;
 public interface IClientService :
     IAddAsyncService<Client>,
     IUpdateAsyncService<Client>,
-    IGetAllAsyncService<Client>
-{
-    
-}
+    IGetAllAsyncService<Client>;

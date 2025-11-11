@@ -48,6 +48,10 @@
                         <viewRooms:StatusView/>
                     </DataTemplate>
                     
+                    <DataTemplate DataType="{x:Type roomsVm:BookingViewModel}">
+                        <viewRooms:BookingView/>
+                    </DataTemplate>
+                    
                     <!-- Users -->
                     <DataTemplate DataType="{x:Type usersVm:UserViewModel}">
                         <viewUsers:UserView/>

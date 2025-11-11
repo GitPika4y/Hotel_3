@@ -10,7 +10,7 @@ public class UserService : IUserService
 {
     private readonly GenericAddAsyncService<User> _addService = new();
     private readonly GenericUpdateAsyncService<User> _updateService = new();
-    private readonly GenericGetAllAsyncService<User> _getAllService = new();
+    private readonly GenericGetAllIncludeAsyncService<User> _getAllService = new();
     
     public async Task<User?> AddAsync(User entity)
     {
@@ -22,13 +22,13 @@ public class UserService : IUserService
         return await _updateService.UpdateAsync(entity);
     }
 
-    public Task<IEnumerable<User>> GetAllAsync(params Expression<Func<User, object>>[] includes)
+    public async Task<IEnumerable<User>> GetAllAsync(params Expression<Func<User, object>>[] includes)
     {
-        return _getAllService.GetAllAsync(includes);
+        return await _getAllService.GetAllAsync(includes);
     }
 
-    public Task<IEnumerable<User>> GetAllAsync()
+    public async Task<IEnumerable<User>> GetAllAsync(params string[] includes)
     {
-        return _getAllService.GetAllAsync();
+        return await _getAllService.GetAllAsync(includes);
     }
 }
