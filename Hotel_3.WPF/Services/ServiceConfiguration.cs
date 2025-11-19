@@ -46,7 +46,7 @@ public static class ServiceConfiguration
         services.AddTransient<IBookingUseCase, BookingUseCase>();
 		
         //VMs third
-        services.AddTransient<ViewModelBase>();
+        services.AddTransient<ModalNavigationBase>();
         services.AddTransient<AuthViewModel>();
         services.AddTransient<MainViewModel>();
         services.AddTransient<DataViewModel>();

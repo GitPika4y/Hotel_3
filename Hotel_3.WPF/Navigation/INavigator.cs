@@ -5,6 +5,6 @@ namespace Hotel_3.WPF.Navigation;
 
 public interface INavigator : INotifyPropertyChanged
 {
-    ViewModelBase CurrentViewModel { get; set; }
+    ModalNavigationBase CurrentViewModel { get; set; }
     void Navigate(ViewModelCase viewModelCase);
 }

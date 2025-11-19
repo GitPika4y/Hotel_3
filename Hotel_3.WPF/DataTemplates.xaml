@@ -1,0 +1,81 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:vm="clr-namespace:Hotel_3.WPF.ViewModels"
+                    xmlns:views="clr-namespace:Hotel_3.WPF.Views"
+                    xmlns:roomsVm="clr-namespace:Hotel_3.WPF.ViewModels.Rooms"
+                    xmlns:viewRooms="clr-namespace:Hotel_3.WPF.Views.Rooms"
+                    xmlns:usersVm="clr-namespace:Hotel_3.WPF.ViewModels.Users"
+                    xmlns:viewUsers="clr-namespace:Hotel_3.WPF.Views.Users"
+                    xmlns:modalVm="clr-namespace:Hotel_3.WPF.ViewModels.Modal"
+                    xmlns:viewModal="clr-namespace:Hotel_3.WPF.Views.Modal"
+                    >
+    <!-- Auth -->
+    <DataTemplate DataType="{x:Type vm:AuthViewModel}">
+        <views:AuthView/>
+    </DataTemplate>
+                    
+    <!-- Main -->
+    <DataTemplate DataType="{x:Type vm:MainViewModel}">
+        <views:MainView/>
+    </DataTemplate>
+                    
+    <!-- Data -->
+    <DataTemplate DataType="{x:Type vm:DataViewModel}">
+        <views:DataView/>
+    </DataTemplate>
+    
+    <!-- Clients -->
+    <DataTemplate DataType="{x:Type vm:ClientViewModel}">
+        <views:ClientView/>
+    </DataTemplate>
+                    
+    <!-- Rooms -->
+    <DataTemplate DataType="{x:Type roomsVm:RoomsViewModel}">
+        <viewRooms:RoomsView/>
+    </DataTemplate>
+                    
+    <DataTemplate DataType="{x:Type roomsVm:CategoryViewModel}">
+        <viewRooms:CategoryView/>
+    </DataTemplate>
+                    
+    <DataTemplate DataType="{x:Type roomsVm:StatusViewModel}">
+        <viewRooms:StatusView/>
+    </DataTemplate>
+                    
+    <DataTemplate DataType="{x:Type roomsVm:BookingViewModel}">
+        <viewRooms:BookingView/>
+    </DataTemplate>
+                    
+    <!-- Users -->
+    <DataTemplate DataType="{x:Type usersVm:UserViewModel}">
+        <viewUsers:UserView/>
+    </DataTemplate>
+                    
+    <DataTemplate DataType="{x:Type usersVm:RoleViewModel}">
+        <viewUsers:RoleView/>
+    </DataTemplate>
+    
+    <!-- Modals -->
+    <DataTemplate DataType="{x:Type modalVm:AddUpdateBookingViewModel}">
+        <viewModal:AddUpdateBookingModal/>
+    </DataTemplate>
+    
+    <DataTemplate DataType="{x:Type modalVm:AddUpdateCategoryStatusRoleViewModel}">
+        <viewModal:AddUpdateCategoryStatusRoleModal/>
+    </DataTemplate>
+    
+    <DataTemplate DataType="{x:Type modalVm:AddUpdateClientViewModel}">
+        <viewModal:AddUpdateClientModal/>
+    </DataTemplate>
+    
+    <DataTemplate DataType="{x:Type modalVm:AddUpdateRoomViewModel}">
+        <viewModal:AddUpdateRoomModal/>
+    </DataTemplate>
+    
+    <DataTemplate DataType="{x:Type modalVm:AddUpdateUserViewModel}">
+        <viewModal:AddUpdateUserModal/>
+    </DataTemplate>
+    
+    
+    
+</ResourceDictionary>

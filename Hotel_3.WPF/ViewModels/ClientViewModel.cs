@@ -3,16 +3,19 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Hotel_3.Domain.Models;
-using Hotel_3.WPF.Commands;
 using Hotel_3.WPF.Navigation;
 using Hotel_3.WPF.UseCases.Clients;
+using Hotel_3.WPF.ViewModels.Modal;
 using Hotel_3.WPF.Views.Modal;
 using MaterialDesignThemes.Wpf;
+using AsyncRelayCommand = Hotel_3.WPF.Commands.AsyncRelayCommand;
 
 namespace Hotel_3.WPF.ViewModels;
 
-public class ClientViewModel : ViewModelBase
+public partial class ClientViewModel : ModalNavigationBase
 {
     private readonly IClientUseCase _useCase;
 
@@ -20,50 +23,41 @@ public class ClientViewModel : ViewModelBase
     
     private readonly ICollectionView _clientsView;
     public ICollectionView ClientsView => _clientsView;
-    
-    public Client? SelectedItem { get; set; }
 
+    [ObservableProperty] 
+    [NotifyCanExecuteChangedFor(nameof(UpdateClientCommand))]
+    private Client? _selectedItem;
+
+    [ObservableProperty]
     private string _lastNameFilterText;
-    public string LastNameFilterText
-    {
-        get => _lastNameFilterText;
-        set
-        {
-            SetProperty(ref _lastNameFilterText, value);
-            _clientsView.Refresh();
-        }
-    }
     
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(FiltersVisibility))]
     private bool _isFiltersChecked;
-    public bool IsFiltersChecked
+    
+    partial void OnIsFiltersCheckedChanged(bool value)
     {
-        get => _isFiltersChecked;
-        set  
-        {
-            SetProperty(ref _isFiltersChecked, value);
-            LastNameFilterText = "";
-            OnPropertyChange(nameof(FiltersVisibility));
-        }
+        LastNameFilterText = "";
+    }
+
+    partial void OnLastNameFilterTextChanged(string value)
+    {
+        _clientsView.Refresh();
     }
     
-    public Visibility FiltersVisibility => _isFiltersChecked ?  Visibility.Visible : Visibility.Collapsed;
+    public Visibility FiltersVisibility => IsFiltersChecked ?  Visibility.Visible : Visibility.Collapsed;
 
-
-    public ICommand AddClientCommand { get; }
-    public ICommand UpdateClientCommand { get; }
-
+    
     public ClientViewModel(INavigator navigator, IClientUseCase useCase) : base(navigator)
     {
         _useCase = useCase;
-
-        AddClientCommand = new AsyncRelayCommand(AddClientAsync, () => true);
-        UpdateClientCommand = new AsyncRelayCommand(UpdateClientAsync, () => SelectedItem != null);
+        
         _clientsView = CollectionViewSource.GetDefaultView(Clients);
         _clientsView.Filter = FilterClients;
         
         _ = InitializeAsync();
     }
-
+    
     private bool FilterClients(object obj)
     {
         if (obj is not Client client) return false;
@@ -96,9 +90,10 @@ public class ClientViewModel : ViewModelBase
         }
     }
 
+    [RelayCommand]
     private async Task AddClientAsync()
     {
-        var result = await DialogHost.Show(new AddUpdateClientModal(
+        var result = await ShowModal(new AddUpdateClientViewModel(
             "Добавить клиента",
             "Добавить"
             ));
@@ -117,12 +112,15 @@ public class ClientViewModel : ViewModelBase
         }
     }
 
+    private bool CanUpdateClient() => SelectedItem != null;
+
+    [RelayCommand(CanExecute = nameof(CanUpdateClient))]
     private async Task UpdateClientAsync()
     {
         var item = SelectedItem;
         if (item is null) return;
         
-        var result = await DialogHost.Show(new AddUpdateClientModal(
+        var result = await ShowModal(new AddUpdateClientViewModel(
             "Добавить клиента",
             "Добавить",
             item

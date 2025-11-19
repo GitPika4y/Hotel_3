@@ -1,33 +1,34 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Hotel_3.Domain.Models;
-using Hotel_3.WPF.Commands;
 using Hotel_3.WPF.Navigation;
 using Hotel_3.WPF.UseCases.Rooms.Booking;
 using Hotel_3.WPF.UseCases.Rooms.Room;
+using Hotel_3.WPF.ViewModels.Modal;
 using Hotel_3.WPF.Views.Modal;
 using MaterialDesignThemes.Wpf;
+using AsyncRelayCommand = Hotel_3.WPF.Commands.AsyncRelayCommand;
 
 namespace Hotel_3.WPF.ViewModels.Rooms;
 
-public class BookingViewModel: ViewModelBase
+public partial class BookingViewModel: ModalNavigationBase
 {
     private readonly IBookingUseCase _useCase;
     private readonly IServiceProvider _serviceProvider;
 
     public ObservableCollection<Booking> Bookings { get; } = [];
-    public Booking? SelectedItem { get; set; }
+
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(UpdateBookingCommand))]
+    private Booking? _selectedItem;
     
-    public ICommand AddBookingCommand { get; }
-    public ICommand UpdateBookingCommand { get; }
     
     public BookingViewModel(INavigator navigator, IBookingUseCase useCase, IServiceProvider serviceProvider): base(navigator)
     {
         _useCase = useCase;
         _serviceProvider = serviceProvider;
-        
-        AddBookingCommand = new AsyncRelayCommand(AddBookingAsync, () => true);
-        UpdateBookingCommand = new AsyncRelayCommand(UpdateBookingAsync, () => SelectedItem != null);
         
         _ = InitializeAsync();
     }
@@ -53,9 +54,10 @@ public class BookingViewModel: ViewModelBase
         }
     }
     
+    [RelayCommand]
     private async Task AddBookingAsync()
     {
-        var result = await DialogHost.Show(new AddUpdateBookingModal(
+        var result = await ShowModal(new AddUpdateBookingViewModel(
             _serviceProvider,
             "Добавить бронирование",
             "Добавить"
@@ -75,12 +77,15 @@ public class BookingViewModel: ViewModelBase
         }
     }
 
+    private bool CanUpdateBooking() => SelectedItem != null;
+
+    [RelayCommand(CanExecute = nameof(CanUpdateBooking))]
     private async Task UpdateBookingAsync()
     {
         var item = SelectedItem;
         if (item == null) return;
         
-        var result = await DialogHost.Show(new AddUpdateBookingModal(
+        var result = await ShowModal(new AddUpdateBookingViewModel(
             _serviceProvider,
             "Изменить бронирование",
             "Изменить",
