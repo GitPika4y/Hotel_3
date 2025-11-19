@@ -31,7 +31,5 @@ public partial class App : Application
 			DataContext = navigator
 		};
 		mainWindow.Show();
-		
-		base.OnStartup(e);
 	}
 }

@@ -17,7 +17,6 @@ internal partial class AuthViewModel(INavigator navigator, IAuthUseCase authUseC
 	[NotifyCanExecuteChangedFor(nameof(SignInCommand))]
 	private string _password = null!;
 	
-	
 	[RelayCommand(CanExecute = nameof(CanSignIn))]
 	private async Task SignInAsync()
 	{

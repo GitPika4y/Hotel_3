@@ -47,11 +47,11 @@ public partial class UserViewModel(INavigator navigator, IUserUseCase useCase, I
     [RelayCommand]
     private async Task AddUserAsync()
     {
-        var result = await ShowModal(new AddUpdateUserViewModel(
-            serviceProvider,
+        var vm = await AddUpdateUserViewModel.CreateAsync(serviceProvider,
             "Добавить пользователя",
             "Добавить"
-            ));
+        );
+        var result = await ShowModal(vm);
 
         if (result is User user)
         {
@@ -71,13 +71,15 @@ public partial class UserViewModel(INavigator navigator, IUserUseCase useCase, I
     { 
         var item = SelectedItem; 
         if (item == null) return;
-        
-        var result = await ShowModal(new AddUpdateUserViewModel(
+
+        var vm = await AddUpdateUserViewModel.CreateAsync(
             serviceProvider,
             "Изменить пользователя",
             "Изменить",
             item
-        ));
+        );
+        
+        var result = await ShowModal(vm);
         
         if (result is User user)
         {

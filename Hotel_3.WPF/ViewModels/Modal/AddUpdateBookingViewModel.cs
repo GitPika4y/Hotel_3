@@ -11,12 +11,12 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Hotel_3.WPF.ViewModels.Modal;
 
-public partial class AddUpdateBookingViewModel: ViewModelBase
+public partial class AddUpdateBookingViewModel(string title, string confirmButtonText) : ViewModelBase
 {
     private int _id;
     
-    public string Title { get; }
-    public string ConfirmButtonText { get; }
+    public string Title { get; } = title;
+    public string ConfirmButtonText { get; } = confirmButtonText;
 
     public ObservableCollection<Room> Rooms { get; } = [];
     public ObservableCollection<Client> Clients { get; } = [];
@@ -36,14 +36,14 @@ public partial class AddUpdateBookingViewModel: ViewModelBase
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(AddUpdateCommand))]
     private DateTime _exitDate = DateTime.Now;
-    
-    
-    public AddUpdateBookingViewModel(IServiceProvider serviceProvider, string title, string confirmButtonText, Booking? booking = null)
+
+
+    public static async Task<AddUpdateBookingViewModel> CreateAsync(IServiceProvider serviceProvider, string title,
+        string confirmButtonText, Booking? booking = null)
     {
-        Title = title;
-        ConfirmButtonText = confirmButtonText;
-        
-        _ = InitializeAsync(serviceProvider, booking);
+        var vm = new AddUpdateBookingViewModel(title, confirmButtonText);
+        await vm.InitializeAsync(serviceProvider, booking);
+        return vm;
     }
 
     private bool CanAddUpdate()

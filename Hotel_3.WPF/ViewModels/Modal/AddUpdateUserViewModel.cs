@@ -12,12 +12,12 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Hotel_3.WPF.ViewModels.Modal;
 
-public partial class AddUpdateUserViewModel: ViewModelBase
+public partial class AddUpdateUserViewModel(string title, string confirmButtonText) : ViewModelBase
 {
     private int _id;
     
-    public string Title { get; }
-    public string ConfirmButtonText { get; }
+    public string Title { get; } = title;
+    public string ConfirmButtonText { get; } = confirmButtonText;
 
     public ObservableCollection<Role> Roles { get; } = [];
 
@@ -34,18 +34,17 @@ public partial class AddUpdateUserViewModel: ViewModelBase
     private Role? _selectedRole;
 
 
-    public AddUpdateUserViewModel(
+    public static async Task<AddUpdateUserViewModel> CreateAsync(
         IServiceProvider serviceProvider,
         string title,
         string confirmButtonText,
         User? user = null )
     {
-        Title = title;
-        ConfirmButtonText = confirmButtonText;
-        
-        _ = InitializeAsync(serviceProvider, user);
+        var vm =  new AddUpdateUserViewModel(title, confirmButtonText);
+        await vm.InitializeAsync(serviceProvider, user);
+        return vm;
     }
-
+    
     private bool CanSave()
     {
         return !string.IsNullOrEmpty(Login) &&

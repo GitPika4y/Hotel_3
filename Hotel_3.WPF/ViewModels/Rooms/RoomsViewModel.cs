@@ -45,7 +45,8 @@ public partial class RoomsViewModel(INavigator navigator, IRoomUseCase useCase, 
     [RelayCommand]
     private async Task AddRoomAsync()
     {
-        var result = await ShowModal(new AddUpdateRoomViewModel(serviceProvider));
+        var vm = await AddUpdateRoomViewModel.CreateAsync(serviceProvider);
+        var result = await ShowModal(vm);
         if (result is Room room)
         {
             var resource = await useCase.AddRoomAsync(room.ToNewModel());
@@ -64,7 +65,9 @@ public partial class RoomsViewModel(INavigator navigator, IRoomUseCase useCase, 
         var item = SelectedItem;
         if (item == null) return;
         
-        var result = await ShowModal(new AddUpdateRoomViewModel(serviceProvider, item));
+        var vm = await AddUpdateRoomViewModel.CreateAsync(serviceProvider,item);
+        
+        var result = await ShowModal(vm);
         if (result is Room room)
         {
             var resource = await useCase.UpdateRoomAsync(room);

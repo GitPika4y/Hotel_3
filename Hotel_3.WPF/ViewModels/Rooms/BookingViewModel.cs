@@ -57,11 +57,11 @@ public partial class BookingViewModel: ModalNavigationBase
     [RelayCommand]
     private async Task AddBookingAsync()
     {
-        var result = await ShowModal(new AddUpdateBookingViewModel(
-            _serviceProvider,
+        var vm = await AddUpdateBookingViewModel.CreateAsync(_serviceProvider,
             "Добавить бронирование",
             "Добавить"
-            ));
+        );
+        var result = await ShowModal(vm);
         if (result is Booking booking)
         {
             var resource = await _useCase.AddAsync(booking);
@@ -84,13 +84,14 @@ public partial class BookingViewModel: ModalNavigationBase
     {
         var item = SelectedItem;
         if (item == null) return;
-        
-        var result = await ShowModal(new AddUpdateBookingViewModel(
-            _serviceProvider,
+
+        var vm = await AddUpdateBookingViewModel.CreateAsync(_serviceProvider,
             "Изменить бронирование",
             "Изменить",
             item
-        ));
+        );
+        
+        var result = await ShowModal(vm);
         if (result is Booking booking)
         {
             var resource = await _useCase.UpdateAsync(booking);

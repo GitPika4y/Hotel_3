@@ -38,18 +38,20 @@ public partial class AddUpdateRoomViewModel: ViewModelBase
         SelectedNumber = value * 100 + 1;
     } 
 
-    public AddUpdateRoomViewModel(IServiceProvider serviceProvider, Room? room = null)
+    public static async Task<AddUpdateRoomViewModel> CreateAsync(IServiceProvider serviceProvider, Room? room = null)
     {
-        _ = InitializeAsync(serviceProvider, room);
+        var vm = new AddUpdateRoomViewModel();
+        await vm.InitializeAsync(serviceProvider, room);
+        return vm;
     }
 
     private async Task InitializeAsync(IServiceProvider serviceProvider, Room? room)
     {
          await InitializeComboBoxItemsSource(serviceProvider);
-         await AssignProperties(room);
+         AssignProperties(room);
     }
 
-    private async Task AssignProperties(Room? room)
+    private void AssignProperties(Room? room)
     {
         if (room is null)
         {
