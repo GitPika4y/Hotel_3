@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Hotel_3.WPF.ViewModels;
 
-public class MainViewModel(INavigator navigator, IServiceProvider serviceProvider) : ViewModelBase(navigator)
+public class MainViewModel(INavigator navigator, IServiceProvider serviceProvider) : ModalNavigationBase(navigator)
 {
     public RoomsViewModel RoomsViewModel { get; } = serviceProvider.GetRequiredService<RoomsViewModel>();
     public CategoryViewModel CategoryViewModel { get; } = serviceProvider.GetRequiredService<CategoryViewModel>();

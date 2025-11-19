@@ -9,9 +9,9 @@ namespace Hotel_3.WPF.Navigation
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        private ViewModelBase _currentViewModel;
+        private ModalNavigationBase _currentViewModel;
 
-        public ViewModelBase CurrentViewModel
+        public ModalNavigationBase CurrentViewModel
         {
             get => _currentViewModel;
             set
@@ -24,7 +24,7 @@ namespace Hotel_3.WPF.Navigation
 
         public void Navigate(ViewModelCase viewModelCase)
         {
-            ViewModelBase viewModel = viewModelCase switch
+            ModalNavigationBase viewModel = viewModelCase switch
 			{
 				ViewModelCase.Auth => serviceProvider.GetRequiredService<AuthViewModel>(),
                 ViewModelCase.Main => serviceProvider.GetRequiredService<MainViewModel>(),
