@@ -1,4 +1,5 @@
-﻿using Hotel_3.Domain.Mappers;
+﻿using Azure.Core.Pipeline;
+using Hotel_3.Domain.Mappers;
 using Hotel_3.Domain.Models;
 using Hotel_3.Domain.Models.Data;
 using Hotel_3.Domain.Services.Data;
@@ -16,6 +17,7 @@ public class DataService : IDataService
     private readonly GenericGetAllAsyncService<Client> _clientService = new();
     private readonly GenericGetAllAsyncService<Role> _roleService = new();
     private readonly GenericGetAllIncludeAsyncService<User> _userService = new();
+    private readonly GenericGetAllIncludeAsyncService<Booking> _bookingService = new();
     
     public async Task ExportToJsonAsync(string path)
     {
@@ -26,6 +28,10 @@ public class DataService : IDataService
         var users = (await _userService.GetAllAsync(
                 r => r.Role))
             .Select(u => u.ToExport());
+        var bookings = (await _bookingService.GetAllAsync(
+                b => b.Room,
+                b => b.Client))
+            .Select(b => b.ToExport());
         
         ExportData allData = new()
         {
@@ -34,7 +40,8 @@ public class DataService : IDataService
             RoomStatuses = (await _roomStatusService.GetAllAsync()).Select(s => s.ToExport()),
             Users = users,
             Roles = (await _roleService.GetAllAsync()).Select(r => r.ToExport()),
-            Clients = (await _clientService.GetAllAsync()).Select(c=>c.ToExport())
+            Clients = (await _clientService.GetAllAsync()).Select(c=>c.ToExport()),
+            Bookings = bookings,
         };
 
         var json = JsonConvert.SerializeObject(allData);
@@ -76,7 +83,10 @@ public class DataService : IDataService
                     .FirstOrDefaultAsync(c=>c.Name == r.RoomCategoryName);
                 var status = await context.RoomStatuses
                     .FirstOrDefaultAsync(s => s.Name == r.RoomStatusName);
-                if (category == null || status == null) return;
+                if (category == null || status == null) 
+                    throw new Exception("Ошибка при импорте Комнат:\n" +
+                                        $"Категория с именем {r.RoomCategoryName} или Статус с именем {r.RoomStatusName}" +
+                                        "не существует в БД");
                 await context.Rooms.AddAsync(new Room
                 {
                     Floor = r.Floor,
@@ -102,7 +112,9 @@ public class DataService : IDataService
             {
                 var role = await context.Roles
                     .FirstOrDefaultAsync(r => r.Name == u.RoleName);
-                if (role == null) return;
+                if (role == null)
+                    throw new Exception("Ошибка при импорте Пользователей:\n" +
+                                        $"Роль с именем {u.RoleName} не существует в БД");
                 await context.Users.AddAsync(new User 
                     { 
                         Login = u.Login,
@@ -110,6 +122,30 @@ public class DataService : IDataService
                         RoleId = role.Id,
                     }
                 );
+            }
+        );
+
+        await ImportEntitiesAsync(
+            data.Bookings,
+            async b => await context.Bookings.AnyAsync(x => x.EnterDate == b.EnterDate),
+            async b =>
+            {
+                var client = await context.Clients
+                    .FirstOrDefaultAsync(c => c.CreatedAt == b.ClientCreatedAt);
+                var room = await context.Rooms
+                    .FirstOrDefaultAsync(r => r.Floor == b.RoomFloor && r.Number == b.RoomNumber);
+
+                if (client == null || room == null)
+                    throw new Exception("Ошибка при импорте Бронирований:\n" +
+                                        $"В БД не был найден Клиент, созданный {b.ClientCreatedAt} или\n" +
+                                        $"Не была найдена Комната с номером {b.RoomNumber} и {b.RoomFloor} этажом");
+                await context.Bookings.AddAsync(new Booking
+                {
+                    EnterDate = b.EnterDate,
+                    ExitDate = b.ExitDate,
+                    ClientId = client.Id,
+                    RoomId = room.Id,
+                });
             }
         );
 

@@ -38,7 +38,6 @@
                 <DataGridTextColumn Header="Этаж комнаты" Binding="{Binding Room.Floor}"/>
                 <DataGridTextColumn Header="Номер комнаты" Binding="{Binding Room.Number}"/>
                 <DataGridTextColumn Header="Категория комнаты" Binding="{Binding Room.RoomCategory.Name}"/>
-                <DataGridTextColumn Header="Статус комнаты" Binding="{Binding Room.RoomStatus.Name}"/>
                 <DataGridTextColumn Header="Дата въезда" Binding="{Binding EnterDate, StringFormat=dd.MM.yyyy | HH:mm}"/>
                 <DataGridTextColumn Header="Дата выезда" Binding="{Binding ExitDate , StringFormat=dd.MM.yyyy | HH:mm}"/>
             </DataGrid.Columns>

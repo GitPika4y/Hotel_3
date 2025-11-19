@@ -21,11 +21,15 @@ public class BookingUseCase(IBookingService service, IStatusService statusServic
         }
     }
 
-    public async Task<Resource<Domain.Models.Booking?>> UpdateAsync(Domain.Models.Booking entity)
+    public async Task<Resource<Domain.Models.Booking?>> UpdateAsync(Domain.Models.Booking entity, Domain.Models.Booking oldEntity)
     {
         try
         {
             var booking = await service.UpdateAsync(entity);
+
+            await SetRoomStatus(oldEntity, "Назначен к уборке");
+            await SetRoomStatus(booking, "Занят");
+            
             return Resource<Domain.Models.Booking?>.Success(booking);
         }
         catch (Exception e)
@@ -51,21 +55,21 @@ public class BookingUseCase(IBookingService service, IStatusService statusServic
         }
     }
 
-    private async Task SetRoomStatus(Domain.Models.Booking? booking, string statusName)
+    private async Task SetRoomStatus(Domain.Models.Booking? booking, string newStatusName)
     {
         if(booking == null)
             throw new Exception("Ошибка при добавлении Бронирования:" +
                                 " Бронирование является null");
 
         var room = await roomService.GetByIdAsync(booking.RoomId);
-        var busyStatus = (await statusService.GetAllAsync())
-            .FirstOrDefault(s => s.Name==statusName);
+        var newStatus = (await statusService.GetAllAsync())
+            .FirstOrDefault(s => s.Name==newStatusName);
 
-        if (room == null || busyStatus == null) 
+        if (room == null || newStatus == null) 
             throw new Exception("Ошибка при добавлении Бронирования:" +
-                                $" Комната не была найдена или Статус '{statusName}' не был найден");
+                                $" Комната не была найдена или Статус '{newStatusName}' не был найден");
             
-        room.RoomStatusId = busyStatus.Id;
+        room.RoomStatusId = newStatus.Id;
         await roomService.UpdateAsync(room);
     }
 }

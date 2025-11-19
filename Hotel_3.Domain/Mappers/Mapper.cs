@@ -26,7 +26,19 @@ public static class Mapper
             RoomStatusName = room.RoomStatus.Name,
         };
     }
-    
+
+    public static BookingExport ToExport(this Booking booking)
+    {
+        return new BookingExport
+        {
+            EnterDate = booking.EnterDate,
+            ExitDate = booking.ExitDate,
+            ClientCreatedAt = booking.Client.CreatedAt,
+            RoomFloor = booking.Room.Floor,
+            RoomNumber = booking.Room.Number,
+        };
+    }
+
     public static RoomCategory ToExport(this RoomCategory category)
     {
         return new RoomCategory

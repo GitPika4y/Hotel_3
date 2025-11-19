@@ -8,6 +8,7 @@ public class ExportData
     public IEnumerable<RoomCategory> RoomCategories { get; set; } = null!;
     public IEnumerable<RoomStatus> RoomStatuses { get; set; } = null!;
     public IEnumerable<UserExport> Users { get; set; } = null!;
+    public IEnumerable<BookingExport> Bookings { get; set; } = null!;
     public IEnumerable<Role> Roles { get; set; } = null!;
     public IEnumerable<Client> Clients { get; set; } = null!;
 }

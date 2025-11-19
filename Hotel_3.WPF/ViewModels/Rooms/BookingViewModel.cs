@@ -94,7 +94,7 @@ public partial class BookingViewModel: ModalNavigationBase
         var result = await ShowModal(vm);
         if (result is Booking booking)
         {
-            var resource = await _useCase.UpdateAsync(booking);
+            var resource = await _useCase.UpdateAsync(booking, item);
             switch (resource)
             {
                 case {IsSuccess: false, Message: not null}:
