@@ -73,6 +73,8 @@ public class DataService : IDataService
             async c => await context.RoomCategories.AnyAsync(x => x.Name == c.Name),
             async c => await context.RoomCategories.AddAsync(new RoomCategory { Name = c.Name } )
         );
+        
+        await context.SaveChangesAsync();
 
         await ImportEntitiesAsync(
             data.Rooms,
@@ -103,6 +105,8 @@ public class DataService : IDataService
             async r => await  context.Roles.AddAsync(new Role { Name = r.Name } )
         );
 
+        await context.SaveChangesAsync();
+        
         await ImportEntitiesAsync(
             data.Users,
             async u => await context.Users.AnyAsync(x=> 
@@ -125,6 +129,14 @@ public class DataService : IDataService
             }
         );
 
+        await ImportEntitiesAsync(
+            data.Clients,
+            async c => await context.Clients.AnyAsync(x => x.CreatedAt == c.CreatedAt),
+            async c => await context.Clients.AddAsync(c)
+        );
+        
+        await context.SaveChangesAsync();
+        
         await ImportEntitiesAsync(
             data.Bookings,
             async b => await context.Bookings.AnyAsync(x => x.EnterDate == b.EnterDate),
